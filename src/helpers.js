@@ -15,3 +15,14 @@ export const sortEarlyToLate = appArray => {
     appArray.sort((appA, appB) => appA.date.month - appB.date.month)
     appArray.sort((appA, appB) => appA.date.year - appB.date.year)
 }
+
+//takes time object and converts to string time in format --:--am or --:--pm
+export const formatTime = time => {
+    let min
+    if(time.min < 10){ //minutes less than 10 need a helping 0 in the front
+        min = `0${time.min}`
+    } else {
+        min = time.min
+    }
+    return `${time.hr}:${min}${time.am ? 'am' : 'pm'}`
+}

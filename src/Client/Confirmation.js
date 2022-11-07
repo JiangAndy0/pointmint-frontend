@@ -1,8 +1,10 @@
+import { formatTime } from "../helpers"
+
 export const Confirmation = ({ appointmentId, user, setPage }) => {
     const appointment = user.appointments.find(appointment => appointment._id === appointmentId)
     return (
         <div>
-            <h2>Success</h2>
+            <h2>Confirmed!</h2>
             <p>
                 You are scheduled for a <strong>{appointment.category.name}</strong> appointment with
                 <strong> {appointment.business.name}</strong>
@@ -10,8 +12,8 @@ export const Confirmation = ({ appointmentId, user, setPage }) => {
             <h3>Time</h3>
             <p>
                 {appointment.date.month}/{appointment.date.day}/{appointment.date.year}<br />
-                {appointment.startTime.hr}:{appointment.startTime.min}{appointment.startTime.am ? "am" : "pm"}-
-                {appointment.endTime.hr}:{appointment.endTime.min}{appointment.endTime.am ? "am" : "pm"}
+                {formatTime(appointment.startTime)}-
+                {formatTime(appointment.endTime)}
             </p>
             <h3>Location</h3>
             <p>

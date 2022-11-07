@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { sortEarlyToLate } from "../helpers"
+import { formatTime, sortEarlyToLate } from "../helpers"
 
 export const MakeAppointment = ({ business, setPage, setUser, setLastAppointment, clientId }) => {
     const [category, setCategory] = useState()
@@ -87,8 +87,8 @@ export const MakeAppointment = ({ business, setPage, setUser, setLastAppointment
                         />
                         <label htmlFor={appointment._id}>
                             {`${appointment.date.month}/${appointment.date.day}/${appointment.date.year} `} 
-                            {appointment.startTime.hr}:{appointment.startTime.min}{appointment.startTime.am ? 'am' : 'pm'}-
-                            {appointment.endTime.hr}:{appointment.endTime.min}{appointment.endTime.am ? 'am' : 'pm'}
+                            {formatTime(appointment.startTime)}-
+                            {formatTime(appointment.endTime)}
                         </label>
                     </div>
                 )

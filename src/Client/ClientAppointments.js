@@ -1,3 +1,5 @@
+import { formatTime } from "../helpers"
+
 export const ClientAppointments = ({appointments, setLastAppointment, setPage}) => {
     return(
         <div>
@@ -9,13 +11,14 @@ export const ClientAppointments = ({appointments, setLastAppointment, setPage}) 
                         setPage('confirmation')
                     }}
                     key={`appointment${index}`}
+                    style={{border: "1px solid black"}}
                 >
                     <h3>{app.business.name}</h3>
                     <p>{app.category.name}</p>
                     <p>
                         {app.date.month}/{app.date.day}/{app.date.year}{" "}
-                        {app.startTime.hr}:{app.startTime.min}{app.startTime.am ? "am" : "pm"}-
-                        {app.endTime.hr}:{app.endTime.min}{app.endTime.am ? "am" : "pm"}
+                        {formatTime(app.startTime)}-
+                        {formatTime(app.endTime)}
                     </p>
                 </article>
             )}
