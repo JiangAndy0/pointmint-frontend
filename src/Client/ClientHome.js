@@ -18,6 +18,7 @@ export const ClientHome = ({ user, setUser }) => {
                 <ClientAppointments 
                     appointments={user.appointments} 
                     setLastAppointment={setLastAppointment}
+                    setUser={setUser}
                     setPage={setPage}
                 />
             }
@@ -31,7 +32,12 @@ export const ClientHome = ({ user, setUser }) => {
                 />
             }
             {page === 'confirmation' && 
-                <Confirmation appointmentId={lastAppointment} user={user} setPage={setPage}/>
+                <Confirmation 
+                    appointmentId={lastAppointment} 
+                    user={user} 
+                    setUser={setUser} 
+                    setPage={setPage}
+                />
             }
         </div>
     )
