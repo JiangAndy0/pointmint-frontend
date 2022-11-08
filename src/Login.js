@@ -1,13 +1,16 @@
 import { useState } from "react"
+import { getApi } from "./helpers"
 
 export const Login = ({setUser}) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState(false)
 
+    const api = getApi()
+
     const handleSubmit = async(e) => {
         e.preventDefault()
-        const res = await fetch("http://localhost:5500/login", {
+        const res = await fetch(`${api}/login`, {
             method: "POST",
             mode: 'cors',
             headers: {

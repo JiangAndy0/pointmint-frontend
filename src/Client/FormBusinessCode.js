@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { sortEarlyToLate } from "../helpers"
+import { getApi, sortEarlyToLate } from "../helpers"
 
 export const FormBusinessCode = ({setPage, setBusiness}) => {
     const [businessCode, setBusinessCode] = useState('')
@@ -8,7 +8,7 @@ export const FormBusinessCode = ({setPage, setBusiness}) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try{
-            const res = await fetch(`http://localhost:5500/businesses/${businessCode}`)
+            const res = await fetch(`${getApi()}/businesses/${businessCode}`)
             const b1 = await res.json()
             if(b1){
                 //sort its appointments by date

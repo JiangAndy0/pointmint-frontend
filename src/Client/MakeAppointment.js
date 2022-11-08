@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { formatTime, sortEarlyToLate } from "../helpers"
+import { formatTime, getApi, sortEarlyToLate } from "../helpers"
 
 export const MakeAppointment = ({ business, setPage, setUser, setLastAppointment, clientId }) => {
     const [category, setCategory] = useState()
@@ -10,7 +10,7 @@ export const MakeAppointment = ({ business, setPage, setUser, setLastAppointment
     const handleSubmit = async(e) => {
         e.preventDefault()
         try {
-            const res = await fetch("http://localhost:5500/appointments/update", {
+            const res = await fetch(`${getApi()}/appointments/update`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
