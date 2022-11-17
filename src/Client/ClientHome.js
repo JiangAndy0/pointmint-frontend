@@ -1,44 +1,24 @@
-import { useState } from "react"
-import { ClientAppointments } from "./ClientAppointments"
-import { Confirmation } from "./Confirmation"
-
 import { FormBusinessCode } from "./FormBusinessCode"
-import { MakeAppointment } from "./MakeAppointment"
+import { ClientAppointments } from "./ClientAppointments"
 
-export const ClientHome = ({ user, setUser }) => {
-    const [page, setPage] = useState("default")
-    const [business, setBusiness] = useState()
-    const [lastAppointment, setLastAppointment] = useState()
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 
-    return (
-        <div>
-            {page === 'default' && <h1>Point<span>Mint</span></h1>}
-            {page === 'default' && <FormBusinessCode setPage={setPage} setBusiness={setBusiness}/>}
-            {page === 'default' && 
-                <ClientAppointments 
-                    appointments={user.appointments} 
-                    setLastAppointment={setLastAppointment}
-                    setUser={setUser}
-                    setPage={setPage}
-                />
-            }
-            {page === 'makeAppointment' && 
-                <MakeAppointment 
-                    setPage={setPage} 
-                    setUser={setUser}
-                    setLastAppointment={setLastAppointment}
-                    business={business} 
-                    clientId={user._id}
-                />
-            }
-            {page === 'confirmation' && 
-                <Confirmation 
-                    appointmentId={lastAppointment} 
-                    user={user} 
-                    setUser={setUser} 
-                    setPage={setPage}
-                />
-            }
-        </div>
-    )
+export const ClientHome = ({setPage, setBusiness, setUser, user, setLastAppointment }) => {
+    return(
+    <div>
+        <header>
+            <h1>Point<span>Mint</span></h1>
+            <button>
+                <FontAwesomeIcon icon={faUser} />
+            </button>
+        </header>
+        <FormBusinessCode setPage={setPage} setBusiness={setBusiness} />
+        <ClientAppointments
+            appointments={user.appointments}
+            setLastAppointment={setLastAppointment}
+            setUser={setUser}
+            setPage={setPage}
+        />
+    </div>)
 }

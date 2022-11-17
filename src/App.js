@@ -2,7 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import { Login } from './Login.js';
 import { BusinessHome } from './Business/BusinessHome.js';
-import { ClientHome } from './Client/ClientHome.js';
+import { Client } from './Client/Client.js';
 
 function App() {
     const [user, setUser] = useState()
@@ -11,7 +11,7 @@ function App() {
         {!user ? 
             <Login setUser={setUser} /> :
             <div>
-                {user.businessCode ? <BusinessHome user={user} setUser={setUser}/> : <ClientHome user={user} setUser={setUser}/> }
+                {user.businessCode ? <BusinessHome user={user} setUser={setUser}/> : <Client user={user} setUser={setUser}/> }
             </div>
         } 
         </div>
