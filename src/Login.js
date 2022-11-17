@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { getApi } from "./helpers"
 
-export const Login = ({setUser}) => {
+export const Login = ({setUser, setPage}) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState(false)
@@ -29,6 +29,7 @@ export const Login = ({setUser}) => {
 
     return (
         <form onSubmit={handleSubmit}>
+            <h2>Log in to your account</h2>
             {error && <span>Username or password incorrect</span>}
             <label htmlFor="username">Username</label>
             <input 
@@ -44,7 +45,15 @@ export const Login = ({setUser}) => {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
             />
-            <input type="submit" value="Sign in"/>
+            <input type="submit" value="Log in"/>
+            <button 
+                onClick={e => {
+                    e.preventDefault()
+                    setPage('signup')
+                }}
+            >
+                Sign up
+            </button>
         </form>
     )
 }
