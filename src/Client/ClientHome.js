@@ -20,7 +20,7 @@ export const ClientHome = ({setPage, setBusiness, setUser, user, setLastAppointm
                 <FontAwesomeIcon icon={faUser} />
                 {dropDown && 
                     <div>
-                        <p>Profile</p>
+                        <p onClick={() => setPage('profile')}>Profile</p>
                         <p onClick={() => window.location.reload()}>Logout</p>
                     </div>
                 } 

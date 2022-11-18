@@ -52,7 +52,7 @@ export const Login = ({setUser, setPage}) => {
                     setPage('signup')
                 }}
             >
-                Sign up
+                Don't have an account? Sign up
             </button>
         </form>
     )

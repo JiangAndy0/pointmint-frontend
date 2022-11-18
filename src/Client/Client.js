@@ -1,8 +1,11 @@
 import { useState } from "react"
 
 import { ClientHome } from "./ClientHome"
+import { ClientProfileEdit } from "./ClientProfileEdit"
 import { Confirmation } from "./Confirmation"
 import { MakeAppointment } from "./MakeAppointment"
+
+
 
 export const Client = ({ user, setUser }) => {
     const [page, setPage] = useState("default")
@@ -34,6 +37,13 @@ export const Client = ({ user, setUser }) => {
                     appointmentId={lastAppointment} 
                     user={user} 
                     setUser={setUser} 
+                    setPage={setPage}
+                />
+            }
+            {page === 'profile' && 
+                <ClientProfileEdit 
+                    user={user}
+                    setUser={setUser}
                     setPage={setPage}
                 />
             }
