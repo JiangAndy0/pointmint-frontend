@@ -1,20 +1,20 @@
 import { formatTime } from "../helpers"
-export const BusinessAppointments = ({appointments, setPage, setAppointment}) => {
-    return(
+
+export const FreeSlots = ({appointments, setAppointment, setPage}) => {
+    return (
         <div>
             {appointments
-                .filter(app => Boolean(app.client))
+                .filter(app => !app.client) //all the appointments without clients
                 .map((app, index) => 
                     <article 
-                        key={`app${index}`}
+                        key={`freeslot${index}`}
                         style={{border: "1px solid black"}}
                         onClick={() => {
                             setAppointment(app)
-                            setPage('appointment')
+                            setPage('freeSlot')
                         }}
                     >
-                        <h3>{app.client.firstName} {app.client.lastName}</h3>
-                        <p>{app.category.name}</p>
+                        {app.categories.map((category, index) => <p key={`category${index}`}>{category.name}</p>)}
                         <p>
                         {app.date.month}/{app.date.day}/{app.date.year}{" "}
                         {formatTime(app.startTime)}-

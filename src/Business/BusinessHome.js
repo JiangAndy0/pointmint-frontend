@@ -1,6 +1,7 @@
 import React from "react"
 import { Header } from "../Header"
 import { BusinessAppointments } from "./BusinessAppointments"
+import { FreeSlots } from "./FreeSlots"
 
 export const BusinessHome = ({user, setPage, tab, setTab, setAppointment}) => {
     return(
@@ -33,7 +34,8 @@ export const BusinessHome = ({user, setPage, tab, setTab, setAppointment}) => {
                 onChange={e => setTab(e.target.value)}
             />
             <label htmlFor="categoriesRadio">Categories</label>
-            {tab === 'appointments' && <BusinessAppointments user={user} setPage={setPage} setAppointment={setAppointment}/>}
+            {tab === 'appointments' && <BusinessAppointments appointments={user.appointments} setPage={setPage} setAppointment={setAppointment}/>}
+            {tab === 'freeSlots' && <FreeSlots appointments={user.appointments}/>}
             
         </div>
     )

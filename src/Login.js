@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { getApi } from "./helpers"
+import { getApi, sortEarlyToLate } from "./helpers"
 
 export const Login = ({setUser, setPage}) => {
     const [username, setUsername] = useState('')
@@ -20,8 +20,9 @@ export const Login = ({setUser, setPage}) => {
         })
         if(res.ok){
             setError(false)
-            const json = await res.json()
-            setUser(json)
+            const user = await res.json()
+            sortEarlyToLate(user.appointments) //sort the appointments from earliest to latest
+            setUser(user)
         } else {
             setError(true)
         }
