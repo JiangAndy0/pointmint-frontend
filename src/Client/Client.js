@@ -8,13 +8,13 @@ import { MakeAppointment } from "./MakeAppointment"
 
 
 export const Client = ({ user, setUser }) => {
-    const [page, setPage] = useState("default")
+    const [page, setPage] = useState("home")
     const [business, setBusiness] = useState()
     const [lastAppointment, setLastAppointment] = useState()
 
     return (
         <div>
-            {page === 'default' && 
+            {page === 'home' && 
                 <ClientHome
                     setPage={setPage}
                     setBusiness={setBusiness}

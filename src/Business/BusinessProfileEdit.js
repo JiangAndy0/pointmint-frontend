@@ -1,32 +1,34 @@
-import { useEffect, useState } from "react"
-import { ClientProfile } from "./ClientProfile"
+import { useState, useEffect } from "react"
+import { BusinessProfile } from "./BusinessProfile"
+import { getApi } from "../helpers"
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faXmark } from "@fortawesome/free-solid-svg-icons"
-import { getApi } from "../helpers"
 
-export const ClientProfileEdit = ({user, setUser, setPage}) => {
-    const [firstName, setFirstName] = useState(user.firstName)
-    const [lastName, setLastName] = useState(user.lastName)
+export const BusinessProfileEdit = ({ user, setUser, setPage }) => {
+    const [name, setName] = useState(user.name)
+    const [businessCode, setBusinessCode] = useState(user.businessCode)
     const [email, setEmail] = useState(user.email)
     const [phone, setPhone] = useState(user.phone)
-    const [status, setStatus] = useState('neutral')
-    const saveBtnDisabled = firstName === user.firstName && lastName === user.lastName && email === user.email && phone === user.phone
+    const [address, setAddress] = useState(user.address)
+    const [status, setStatus] = useState('idle')
+    const saveBtnDisabled = name === user.name && businessCode === user.businessCode && email === user.email
+        && phone === user.phone && address.every((line, index) => line === user.address[index])
 
     useEffect(() => { //clear screen of success/error messages whenever input is detected
-        setStatus('neutral')
-    }, [firstName, lastName, email, phone])
-    
-    const handleSave = async(e) => {
+        setStatus('idle')
+    }, [name, businessCode, email, phone, address])
+
+    const handleSave = async (e) => {
         e.preventDefault()
-        const res = await fetch(`${getApi()}/clients/update`, {
+        const res = await fetch(`${getApi()}/businesses/update`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({_id: user._id, firstName, lastName, email, phone})
+            body: JSON.stringify({ _id: user._id, name, businessCode, email, phone, address })
         })
-        if(res.ok){
+        if (res.ok) {
             const updatedUser = await res.json()
             setUser(updatedUser)
             setStatus('success')
@@ -34,6 +36,7 @@ export const ClientProfileEdit = ({user, setUser, setPage}) => {
             setStatus('error')
         }
     }
+
     return (
         <form onSubmit={handleSave}>
             <h2>Profile</h2>
@@ -47,9 +50,9 @@ export const ClientProfileEdit = ({user, setUser, setPage}) => {
             </button>
             {status === 'success' && <p>Your changes have been saved</p>}
             {status === 'error' && <p>Something went wrong with your request. Try again later</p>}
-            <ClientProfile 
-                firstName={firstName} lastName={lastName} email={email} phone={phone}
-                setFirstName={setFirstName} setLastName={setLastName} setEmail={setEmail} setPhone={setPhone}
+            <BusinessProfile
+                name={name} businessCode={businessCode} email={email} phone={phone} address={address}
+                setName={setName} setEmail={setEmail} setBusinessCode={setBusinessCode} setPhone={setPhone} setAddress={setAddress}
             />
             <input type="submit" value="Save Changes" disabled={saveBtnDisabled || status === 'success'} />
         </form>

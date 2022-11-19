@@ -30,7 +30,7 @@ export const Login = ({setUser, setPage}) => {
     return (
         <form onSubmit={handleSubmit}>
             <h2>Log in to your account</h2>
-            {error && <span>Username or password incorrect</span>}
+            {error && <p>Username or password incorrect</p>}
             <label htmlFor="username">Username</label>
             <input 
                 id="username" 

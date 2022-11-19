@@ -1,7 +1,7 @@
 import './App.css';
 import { useState } from 'react';
 import { Login } from './Login.js';
-import { BusinessHome } from './Business/BusinessHome.js';
+import { Business } from './Business/Business';
 import { Client } from './Client/Client.js';
 import { Signup } from './Signup';
 
@@ -18,7 +18,7 @@ function App() {
             </div>
             :
             <div>
-                {user.businessCode ? <BusinessHome user={user} setUser={setUser}/> : <Client user={user} setUser={setUser}/> }
+                {user.businessCode ? <Business user={user} setUser={setUser}/> : <Client user={user} setUser={setUser}/> }
             </div>
         } 
         </div>
