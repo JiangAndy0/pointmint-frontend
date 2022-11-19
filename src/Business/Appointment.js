@@ -1,12 +1,28 @@
 import { useState } from "react"
-import { formatTime } from "../helpers"
+import { formatTime, getApi, sortEarlyToLate } from "../helpers"
 
-export const Appointment = ({appointment, setPage}) => {
+export const Appointment = ({appointment, setPage, setUser}) => {
     const [error, setError] = useState(false)
     const handleDecline = async(e) => {
         e.preventDefault()
         try {
+            const res = await fetch(`${getApi()}/appointments/cancel`, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({appointmentId: appointment._id, businessId: appointment.business})
+            })
+            if(res.ok){
+                const updatedBusiness = await res.json()
+                sortEarlyToLate(updatedBusiness.appointments)
+                setUser(updatedBusiness)
+                setPage('home')
+            }
         } catch (err){
+            console.log(err)
+            setError(true)
         }
     }
 

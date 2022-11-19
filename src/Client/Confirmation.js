@@ -19,7 +19,7 @@ export const Confirmation = ({ appointmentId, user, setUser, setPage }) => {
                 const updatedClient = await res.json()
                 sortEarlyToLate(updatedClient.appointments)
                 setUser(updatedClient)
-                setPage('default')
+                setPage('home')
             }
         } catch (err){
             console.log(err)

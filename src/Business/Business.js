@@ -13,7 +13,7 @@ export const Business = ({user, setUser}) => {
                 <BusinessHome user={user} setPage={setPage} setTab={setTab} tab={tab} setAppointment={setAppointment}/>
             }
             {page === 'profile' && <BusinessProfileEdit user={user} setUser={setUser} setPage={setPage}/>}
-            {page === 'appointment' && <Appointment appointment={appointment} setPage={setPage}/>}
+            {page === 'appointment' && <Appointment appointment={appointment} setPage={setPage} setUser={setUser}/>}
         </div>
     )
 }
