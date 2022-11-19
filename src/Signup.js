@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { BusinessProfile } from "./Business/BusinessProfile"
 import { ClientProfile } from "./Client/ClientProfile"
-import { getApi, sortEarlyToLate } from "./helpers"
+import { getApi } from "./helpers"
 
 export const Signup = ({setUser}) => {
     const [username, setUsername] = useState("")
