@@ -5,12 +5,10 @@ import { ClientProfileEdit } from "./ClientProfileEdit"
 import { Confirmation } from "./Confirmation"
 import { MakeAppointment } from "./MakeAppointment"
 
-
-
 export const Client = ({ user, setUser }) => {
     const [page, setPage] = useState("home")
     const [business, setBusiness] = useState()
-    const [lastAppointment, setLastAppointment] = useState()
+    const [appointment, setAppointment] = useState()
 
     return (
         <div>
@@ -20,24 +18,25 @@ export const Client = ({ user, setUser }) => {
                     setBusiness={setBusiness}
                     setUser={setUser}
                     user={user}
-                    setLastAppointment={setLastAppointment}
+                    setAppointment={setAppointment}
                 />
             }
-            {page === 'makeAppointment' && 
+            {(page === 'makeAppointment' || page === 'editAppointment') && 
                 <MakeAppointment 
                     setPage={setPage} 
                     setUser={setUser}
-                    setLastAppointment={setLastAppointment}
+                    setAppointment={setAppointment}
                     business={business} 
                     clientId={user._id}
+                    app={page === 'editAppointment' && appointment}
                 />
             }
             {page === 'confirmation' && 
                 <Confirmation 
-                    appointmentId={lastAppointment} 
-                    user={user} 
+                    appointment={appointment} 
                     setUser={setUser} 
                     setPage={setPage}
+                    setBusiness={setBusiness}
                 />
             }
             {page === 'profile' && 

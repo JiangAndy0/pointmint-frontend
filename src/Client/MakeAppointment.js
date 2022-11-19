@@ -1,33 +1,48 @@
 import { useState } from "react"
 import { formatTime, getApi, sortEarlyToLate } from "../helpers"
 
-export const MakeAppointment = ({ business, setPage, setUser, setLastAppointment, clientId }) => {
-    const [category, setCategory] = useState()
-    const [appointment, setAppointment] = useState()
-    const [answers, setAnswers] = useState([])
+export const MakeAppointment = ({ business, setPage, setUser, setAppointment, clientId, app }) => {
+    const [category, setCategory] = useState(app ? app.category : "")
+    const [appId, setAppId] = useState(app ? app._id : "")
+    const [answers, setAnswers] = useState(app ? app.answers : [])
     const [error, setError] = useState(false)
 
-    const handleSubmit = async(e) => {
+    const disableUpdate = app && app._id === appId && app.category._id === category._id 
+        && app.answers.every((answer, index) => answer === answers[index])
+
+    const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const res = await fetch(`${getApi()}/appointments/update`, {
+            if (app) {
+                //cancel the old appointment
+                const resCancel = await fetch(`${getApi()}/appointments/cancel`, {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ appointmentId: app._id })
+                })
+                console.log("Successfully canceled old appointment :", resCancel)
+            }
+            const resUpdate = await fetch(`${getApi()}/appointments/update`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    appointmentId: appointment, 
-                    categoryId: category._id, 
+                    appointmentId: appId,
+                    categoryId: category._id,
                     clientId,
                     answers
                 })
             })
-            if(res.ok){
-                const updatedClient = await res.json()
+            if (resUpdate.ok) {
+                const updatedClient = await resUpdate.json()
                 sortEarlyToLate(updatedClient.appointments)
                 setUser(updatedClient)
-                setLastAppointment(appointment)
+                setAppointment(updatedClient.appointments.find(appointment => appointment._id === appId))
                 setPage('confirmation')
             }
         } catch {
@@ -40,7 +55,7 @@ export const MakeAppointment = ({ business, setPage, setUser, setLastAppointment
                 {business.name}
                 <button onClick={e => {
                     e.preventDefault()
-                    setPage('default')
+                    setPage(app ? 'confirmation' : 'home')
                 }}>
                     ✖
                 </button>
@@ -49,19 +64,21 @@ export const MakeAppointment = ({ business, setPage, setUser, setLastAppointment
             {business.categories.map(category => {
                 return (
                     <div key={category._id}>
-                        <input 
-                            type="radio" 
-                            id={category.name} 
-                            name="category" 
+                        <input
+                            type="radio"
+                            id={category.name}
+                            name="category"
                             value={category._id}
                             onClick={e => {
                                 const newCategory = business.categories.find(category => category._id === e.target.value)
-                                for(let i = 0; i < answers.length; i++){
+                                for (let i = 0; i < answers.length; i++) {
                                     answers[i] = ""
                                 }
+                                setAppId("")
                                 setCategory(newCategory)
                             }}
-                            required 
+                            required
+                            defaultChecked={app && app.category._id === category._id}
                         />
                         <label htmlFor={category.name}>{category.name}</label>
                     </div>
@@ -69,35 +86,37 @@ export const MakeAppointment = ({ business, setPage, setUser, setLastAppointment
             }
             )}
             <p>Select Appointment Slot:</p>
-            { category && business.appointments
-                .filter(appointment => 
+            {category && business.appointments
+                .filter(appointment =>
                     appointment.categories.some(cat => cat._id === category._id)
                 )
-                .map(appointment => {
-                return(
+                .map(appointment =>
                     <div key={appointment._id}>
-                        <input 
+                        <input
                             type="radio"
                             id={appointment._id}
                             name="slot"
                             value={appointment._id}
-                            onClick={e => setAppointment(e.target.value)}
-                            disabled={Boolean(appointment.client)}
+                            onClick={e => setAppId(e.target.value)}
+                            //if we are editing, disable button if this appointment already has a client
+                            //and its id doesn't match the appointment that we are editing, otherwise disable if appoint. has client
+                            disabled={app ? appointment.client && appointment._id !== app._id : Boolean(appointment.client)}
+                            defaultChecked={app && appointment._id === app._id}
                             required
                         />
                         <label htmlFor={appointment._id}>
-                            {`${appointment.date.month}/${appointment.date.day}/${appointment.date.year} `} 
+                            {`${appointment.date.month}/${appointment.date.day}/${appointment.date.year} `}
                             {formatTime(appointment.startTime)}-
                             {formatTime(appointment.endTime)}
                         </label>
                     </div>
                 )
-            })}
+            }
             <p>Please answer a few questions about the appointment:</p>
-            {category && category.questions.map((question, index) => 
+            {category && category.questions.map((question, index) =>
                 <div key={`question${index}`}>
                     <label htmlFor={`question${index}`}>{question}</label>
-                    <textarea 
+                    <textarea
                         id={`question${index}`}
                         rows="5"
                         cols="33"
@@ -112,7 +131,7 @@ export const MakeAppointment = ({ business, setPage, setUser, setLastAppointment
                 </div>
             )}
             {error && <p>Something went wrong with your request. Please try again later</p>}
-            <input type="submit" value="Request Appointment"/>
+            <input type="submit" value={app ? "Update Appointment" : "Request Appointment"} disabled={disableUpdate}/>
         </form>
     )
 }

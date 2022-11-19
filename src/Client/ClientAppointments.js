@@ -1,13 +1,13 @@
 import { formatTime } from "../helpers"
 
-export const ClientAppointments = ({appointments, setLastAppointment, setPage}) => {
+export const ClientAppointments = ({appointments, setAppointment, setPage}) => {
     return(
         <div>
             <h2>My Appointments</h2>
             {appointments.map((app, index) => 
                 <article
                     onClick={() => {
-                        setLastAppointment(app._id)
+                        setAppointment(app)
                         setPage('confirmation')
                     }}
                     key={`appointment${index}`}
