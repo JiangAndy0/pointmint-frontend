@@ -27,7 +27,7 @@ export const formatTime = time => {
     return `${time.hr}:${min}${time.am ? 'am' : 'pm'}`
 }
 
-const serverDevelopment = true;
+const serverDevelopment = false;
 //sends back different api end points based on if in production or development
 export const getApi = () => {
     return serverDevelopment ? "http://localhost:5500" : "https://point-mint-backend.herokuapp.com"
