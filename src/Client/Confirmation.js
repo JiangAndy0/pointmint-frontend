@@ -59,7 +59,7 @@ export const Confirmation = ({ appointmentId, user, setUser, setPage }) => {
             <button
                 onClick={e => {
                     e.preventDefault()
-                    setPage('default')
+                    setPage('home')
                 }}
             >
                 Return to Appointments

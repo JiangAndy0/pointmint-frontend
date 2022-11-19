@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { BusinessProfile } from "./Business/BusinessProfile"
 import { ClientProfile } from "./Client/ClientProfile"
-import { getApi } from "./helpers"
+import { getApi, sortEarlyToLate } from "./helpers"
 
 export const Signup = ({setUser}) => {
     const [username, setUsername] = useState("")
@@ -41,6 +41,7 @@ export const Signup = ({setUser}) => {
         })
         if (res.ok) {
             const user = await res.json() //gets back a Business/Client document from database
+            sortEarlyToLate(user.appointments) //sort the appointments from earliest to latest
             setUser(user) //will change the page to the Business/Client home page
         } else {
             setError(true)
