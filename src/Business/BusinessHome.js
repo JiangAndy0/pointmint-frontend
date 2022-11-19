@@ -1,6 +1,7 @@
 import React from "react"
 import { Header } from "../Header"
 import { BusinessAppointments } from "./BusinessAppointments"
+import { Categories } from "./Categories"
 import { FreeSlots } from "./FreeSlots"
 
 export const BusinessHome = ({user, setPage, tab, setTab, setAppointment}) => {
@@ -36,6 +37,7 @@ export const BusinessHome = ({user, setPage, tab, setTab, setAppointment}) => {
             <label htmlFor="categoriesRadio">Categories</label>
             {tab === 'appointments' && <BusinessAppointments appointments={user.appointments} setPage={setPage} setAppointment={setAppointment}/>}
             {tab === 'freeSlots' && <FreeSlots appointments={user.appointments}/>}
+            {tab === 'categories' && <Categories categories={user.categories}/>}
             
         </div>
     )

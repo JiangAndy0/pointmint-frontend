@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCross } from "@fortawesome/free-solid-svg-icons"
 import { useState } from "react"
 import { formatTime, getApi, sortEarlyToLate } from "../helpers"
 
@@ -28,6 +30,12 @@ export const Appointment = ({appointment, setPage, setUser}) => {
 
     return (
         <div>
+            <h2>Appointment Info</h2>
+            <button
+                onClick={() => setPage('home')}
+            >
+                ✖
+            </button>
             <p>
                 <strong>{appointment.client.firstName} {appointment.client.lastName}</strong> is scheduled for a 
                 <strong> {appointment.category.name}</strong> appointment.

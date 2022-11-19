@@ -28,7 +28,12 @@ export const Confirmation = ({ appointmentId, user, setUser, setPage }) => {
     }
     return (
         <div>
-            <h2>Confirmed!</h2>
+            <h2>Appointment Info</h2>
+            <button
+                onClick={() => setPage('home')}
+            >
+                ✖
+            </button>
             <p>
                 You are scheduled for a <strong>{appointment.category.name}</strong> appointment with
                 <strong> {appointment.business.name}</strong>
