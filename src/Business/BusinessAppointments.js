@@ -1,4 +1,4 @@
-import { formatTime } from "../helpers"
+import { formatDate, formatTime } from "../helpers"
 export const BusinessAppointments = ({appointments, setPage, setAppointment}) => {
     return(
         <div>
@@ -16,7 +16,7 @@ export const BusinessAppointments = ({appointments, setPage, setAppointment}) =>
                         <h3>{app.client.firstName} {app.client.lastName}</h3>
                         <p>{app.category.name}</p>
                         <p>
-                        {app.date.month}/{app.date.day}/{app.date.year}{" "}
+                        {formatDate(app.date)}{" "}
                         {formatTime(app.startTime)}-
                         {formatTime(app.endTime)}
                         </p>

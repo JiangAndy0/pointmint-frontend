@@ -1,4 +1,4 @@
-import { formatTime } from "../helpers"
+import { formatDate, formatTime } from "../helpers"
 
 export const FreeSlots = ({appointments, setAppointment, setPage}) => {
     return (
@@ -21,7 +21,7 @@ export const FreeSlots = ({appointments, setAppointment, setPage}) => {
                     >
                         {app.categories.map((category, index) => <p key={`category${index}`}>{category.name}</p>)}
                         <p>
-                        {app.date.month}/{app.date.day}/{app.date.year}{" "}
+                        {formatDate(app.date)}{" "}
                         {formatTime(app.startTime)}-
                         {formatTime(app.endTime)}
                         </p>

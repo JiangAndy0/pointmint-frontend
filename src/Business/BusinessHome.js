@@ -36,7 +36,7 @@ export const BusinessHome = ({user, setPage, tab, setTab, setAppointment}) => {
             />
             <label htmlFor="categoriesRadio">Categories</label>
             {tab === 'appointments' && <BusinessAppointments appointments={user.appointments} setPage={setPage} setAppointment={setAppointment}/>}
-            {tab === 'freeSlots' && <FreeSlots appointments={user.appointments} setPage={setPage}/>}
+            {tab === 'freeSlots' && <FreeSlots appointments={user.appointments} setAppointment={setAppointment} setPage={setPage}/>}
             {tab === 'categories' && <Categories categories={user.categories}/>}
             
         </div>

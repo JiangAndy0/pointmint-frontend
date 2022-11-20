@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { formatTime, getApi, sortEarlyToLate } from "../helpers"
+import { formatDate, formatTime, getApi, sortEarlyToLate } from "../helpers"
 
 export const Appointment = ({appointment, setPage, setUser}) => {
     const [error, setError] = useState(false)
@@ -40,7 +40,7 @@ export const Appointment = ({appointment, setPage, setUser}) => {
             </p>
             <h3>Time</h3>
             <p>
-                {appointment.date.month}/{appointment.date.day}/{appointment.date.year}<br />
+                {formatDate(appointment.date)}<br />
                 {formatTime(appointment.startTime)}-
                 {formatTime(appointment.endTime)}
             </p>

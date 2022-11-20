@@ -10,12 +10,11 @@ export const AddFreeSlots = ({ setPage, user }) => {
             {user.categories.map(category => 
             <div key={category._id}>
                 <input
-                    type="radio"
+                    type="checkbox"
                     id={category.name}
-                    name="category"
+                    name="categories"
                     value={category._id}
                     onClick={(e) => setCategoryId(e.target.value)}
-                    required
                 />
                 <label htmlFor={category.name}>{category.name}</label>
             </div>
@@ -23,23 +22,10 @@ export const AddFreeSlots = ({ setPage, user }) => {
             {categoryId && 
             <div>
                 <h3>Add time slots</h3>
-                <label htmlFor="month">Month</label>
+                <label htmlFor="date">Date</label>
                 <input 
-                    type="text"
-                    id="month"
-                    inputMode="numeric"
-                />
-                <label htmlFor="day">Day</label>
-                <input 
-                    type="text"
-                    id="day"
-                    inputMode="numeric"
-                />
-                <label htmlFor="year">Year</label>
-                <input 
-                    type="text"
-                    id="year"
-                    inputMode="numeric"
+                    type="date"
+                    id="date"
                 />
                 <label htmlFor="start">Start</label>
                 <input 

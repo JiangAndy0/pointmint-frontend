@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { formatTime, getApi, sortEarlyToLate } from "../helpers"
+import { formatTime, getApi, sortEarlyToLate, formatDate } from "../helpers"
 import { Title } from "../Title"
 
 export const MakeAppointment = ({ business, setPage, setUser, setAppointment, clientId, app }) => {
@@ -95,7 +95,7 @@ export const MakeAppointment = ({ business, setPage, setUser, setAppointment, cl
                             required
                         />
                         <label htmlFor={appointment._id}>
-                            {`${appointment.date.month}/${appointment.date.day}/${appointment.date.year} `}
+                            {`${formatDate(appointment.date)} `}
                             {formatTime(appointment.startTime)}-
                             {formatTime(appointment.endTime)}
                         </label>
