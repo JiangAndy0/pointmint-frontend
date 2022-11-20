@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Title } from "../Title"
 import { formatDate, formatTime, getApi, sortEarlyToLate } from "../helpers"
 
 export const Appointment = ({appointment, setPage, setUser}) => {
@@ -28,12 +29,7 @@ export const Appointment = ({appointment, setPage, setUser}) => {
 
     return (
         <div>
-            <h2>Appointment Info</h2>
-            <button
-                onClick={() => setPage('home')}
-            >
-                ✖
-            </button>
+            <Title title="Appointment Info" setPage={setPage}/>
             <p>
                 <strong>{appointment.client.firstName} {appointment.client.lastName}</strong> is scheduled for a 
                 <strong> {appointment.category.name}</strong> appointment.
