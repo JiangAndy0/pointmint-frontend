@@ -37,8 +37,22 @@ export const BusinessHome = ({user, setPage, tab, setTab, setAppointment}) => {
                 defaultChecked={tab === 'categories'}
             />
             <label htmlFor="categoriesRadio">Categories</label>
-            {tab === 'appointments' && <BusinessAppointments appointments={user.appointments} setPage={setPage} setAppointment={setAppointment}/>}
-            {tab === 'freeSlots' && <FreeSlots appointments={user.appointments} setAppointment={setAppointment} setPage={setPage}/>}
+            {tab === 'appointments' && 
+                <BusinessAppointments 
+                    appointments={user.appointments} 
+                    setPage={setPage} 
+                    setAppointment={setAppointment}
+                    categories={user.categories}
+                />
+            }
+            {tab === 'freeSlots' && 
+                <FreeSlots 
+                    appointments={user.appointments} 
+                    setAppointment={setAppointment} 
+                    setPage={setPage} 
+                    categories={user.categories}
+                />
+            }
             {tab === 'categories' && <Categories categories={user.categories}/>}
             
         </div>
