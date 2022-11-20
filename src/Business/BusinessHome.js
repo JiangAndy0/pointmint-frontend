@@ -16,7 +16,7 @@ export const BusinessHome = ({user, setPage, tab, setTab, setAppointment}) => {
                 name="tab"
                 value="appointments"
                 onChange={e => setTab(e.target.value)}
-                defaultChecked
+                defaultChecked={tab === 'appointments'}
             />
             <label htmlFor="appointmentsRadio">Appointments</label>
             <input 
@@ -25,6 +25,7 @@ export const BusinessHome = ({user, setPage, tab, setTab, setAppointment}) => {
                 name="tab"
                 value="freeSlots"
                 onChange={e => setTab(e.target.value)}
+                defaultChecked={tab === 'freeSlots'}
             />
             <label htmlFor="freeSlotsRadio">Free Slots</label>
             <input 
@@ -33,6 +34,7 @@ export const BusinessHome = ({user, setPage, tab, setTab, setAppointment}) => {
                 name="tab"
                 value="categories"
                 onChange={e => setTab(e.target.value)}
+                defaultChecked={tab === 'categories'}
             />
             <label htmlFor="categoriesRadio">Categories</label>
             {tab === 'appointments' && <BusinessAppointments appointments={user.appointments} setPage={setPage} setAppointment={setAppointment}/>}
