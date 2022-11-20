@@ -3,6 +3,11 @@ import { formatTime } from "../helpers"
 export const FreeSlots = ({appointments, setAppointment, setPage}) => {
     return (
         <div>
+            <button
+                onClick={() => setPage("addFreeSlots")}
+            >
+                + Add
+            </button>
             {appointments
                 .filter(app => !app.client) //all the appointments without clients
                 .map((app, index) => 

@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { AddFreeSlots } from "./AddFreeSlots"
 import { Appointment } from "./Appointment"
 import { BusinessHome } from "./BusinessHome"
 import { BusinessProfileEdit } from "./BusinessProfileEdit"
@@ -14,6 +15,7 @@ export const Business = ({user, setUser}) => {
             }
             {page === 'profile' && <BusinessProfileEdit user={user} setUser={setUser} setPage={setPage}/>}
             {page === 'appointment' && <Appointment appointment={appointment} setPage={setPage} setUser={setUser}/>}
+            {page === 'addFreeSlots' && <AddFreeSlots setPage={setPage} user={user}/>}
         </div>
     )
 }

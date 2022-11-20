@@ -1,11 +1,9 @@
 //sort an array of appointments from earliest to latest
 export const sortEarlyToLate = appArray => {
-    appArray.sort((appA, appB) => appA.startTime.min - appB.startTime.min)
-    appArray.sort((appA, appB) => appA.startTime.hr - appB.startTime.hr)
     appArray.sort((appA, appB) => {
-        if(appA.startTime.am === appB.startTime.am){
+        if(appA.startTime === appB.startTime){
             return 0
-        } else if(appA.startTime.am && !appB.startTime.am){ //appointment A starts before appointment B
+        } else if(appA.startTime < appB.startTime){ //appointment A starts before appointment B
             return -1
         } else { //appointment A starts after appointment B
             return 1
@@ -16,15 +14,16 @@ export const sortEarlyToLate = appArray => {
     appArray.sort((appA, appB) => appA.date.year - appB.date.year)
 }
 
-//takes time object and converts to string time in format --:--am or --:--pm
+//takes time string in format hh:mm and converts to string time in format --:--am or --:--pm
 export const formatTime = time => {
-    let min
-    if(time.min < 10){ //minutes less than 10 need a helping 0 in the front
-        min = `0${time.min}`
+    if(time < "12:00"){
+        return time + 'am'
+    } else if(time < "13:00"){
+        return time + 'pm'
     } else {
-        min = time.min
+        const hr = parseInt(time.split(':')[0]) - 12
+        return `${hr < 10 && '0'}${hr}` + time.slice(2) + 'pm'
     }
-    return `${time.hr}:${min}${time.am ? 'am' : 'pm'}`
 }
 
 const serverDevelopment = true;

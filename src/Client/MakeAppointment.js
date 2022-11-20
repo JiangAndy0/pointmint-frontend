@@ -8,7 +8,7 @@ export const MakeAppointment = ({ business, setPage, setUser, setAppointment, cl
     const [answers, setAnswers] = useState(app ? app.answers : [])
     const [error, setError] = useState(false)
 
-    const disableUpdate = app && app._id === appId && app.category._id === category._id 
+    const disableUpdate = app && app._id === appId && app.category._id === category._id
         && app.answers.every((answer, index) => answer === answers[index])
 
     const handleSubmit = async (e) => {
@@ -52,31 +52,28 @@ export const MakeAppointment = ({ business, setPage, setUser, setAppointment, cl
     }
     return (
         <form onSubmit={handleSubmit}>
-            <Title title={business.name} setPage={setPage} setPageTo={app ? 'confirmation' : 'home'}/>
+            <Title title={business.name} setPage={setPage} setPageTo={app ? 'confirmation' : 'home'} />
             <p>Select Appointment Type:</p>
-            {business.categories.map(category => {
-                return (
-                    <div key={category._id}>
-                        <input
-                            type="radio"
-                            id={category.name}
-                            name="category"
-                            value={category._id}
-                            onClick={e => {
-                                const newCategory = business.categories.find(category => category._id === e.target.value)
-                                for (let i = 0; i < answers.length; i++) {
-                                    answers[i] = ""
-                                }
-                                setAppId("")
-                                setCategory(newCategory)
-                            }}
-                            required
-                            defaultChecked={app && app.category._id === category._id}
-                        />
-                        <label htmlFor={category.name}>{category.name}</label>
-                    </div>
-                )
-            }
+            {business.categories.map(category =>
+                <div key={category._id}>
+                    <input
+                        type="radio"
+                        id={category.name}
+                        name="category"
+                        value={category._id}
+                        onClick={e => {
+                            const newCategory = business.categories.find(category => category._id === e.target.value)
+                            for (let i = 0; i < answers.length; i++) {
+                                answers[i] = ""
+                            }
+                            setAppId("")
+                            setCategory(newCategory)
+                        }}
+                        required
+                        defaultChecked={app && app.category._id === category._id}
+                    />
+                    <label htmlFor={category.name}>{category.name}</label>
+                </div>
             )}
             <p>Select Appointment Slot:</p>
             {category && business.appointments
@@ -124,7 +121,7 @@ export const MakeAppointment = ({ business, setPage, setUser, setAppointment, cl
                 </div>
             )}
             {error && <p>Something went wrong with your request. Please try again later</p>}
-            <input type="submit" value={app ? "Update Appointment" : "Request Appointment"} disabled={disableUpdate}/>
+            <input type="submit" value={app ? "Update Appointment" : "Request Appointment"} disabled={disableUpdate} />
         </form>
     )
 }
