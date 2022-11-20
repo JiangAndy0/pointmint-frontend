@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { formatTime, getApi, sortEarlyToLate } from "../helpers"
+import { Title } from "../Title"
 
 export const Confirmation = ({ appointment, setUser, setPage, setBusiness }) => {
     const [error, setError] = useState(false)
@@ -46,12 +47,7 @@ export const Confirmation = ({ appointment, setUser, setPage, setBusiness }) => 
 
     return (
         <div>
-            <h2>Appointment Info</h2>
-            <button
-                onClick={() => setPage('home')}
-            >
-                ✖
-            </button>
+            <Title title="Appointment Info" setPage={setPage}/>
             <p>
                 You are scheduled for a <strong>{appointment.category.name}</strong> appointment with
                 <strong> {appointment.business.name}</strong>

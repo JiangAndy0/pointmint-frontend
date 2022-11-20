@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
 import { ClientProfile } from "./ClientProfile"
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faXmark } from "@fortawesome/free-solid-svg-icons"
 import { getApi } from "../helpers"
+import { Title } from "../Title"
 
 export const ClientProfileEdit = ({user, setUser, setPage}) => {
     const [firstName, setFirstName] = useState(user.firstName)
@@ -36,15 +35,7 @@ export const ClientProfileEdit = ({user, setUser, setPage}) => {
     }
     return (
         <form onSubmit={handleSave}>
-            <h2>Profile</h2>
-            <button
-                onClick={e => {
-                    e.preventDefault()
-                    setPage('home')
-                }}
-            >
-                <FontAwesomeIcon icon={faXmark} />
-            </button>
+            <Title title="Profile" setPage={setPage}/>
             {status === 'success' && <p>Your changes have been saved</p>}
             {status === 'error' && <p>Something went wrong with your request. Try again later</p>}
             <ClientProfile 

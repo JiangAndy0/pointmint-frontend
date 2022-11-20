@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { formatTime, getApi, sortEarlyToLate } from "../helpers"
+import { Title } from "../Title"
 
 export const MakeAppointment = ({ business, setPage, setUser, setAppointment, clientId, app }) => {
     const [category, setCategory] = useState(app ? app.category : "")
@@ -51,15 +52,7 @@ export const MakeAppointment = ({ business, setPage, setUser, setAppointment, cl
     }
     return (
         <form onSubmit={handleSubmit}>
-            <h1>
-                {business.name}
-                <button onClick={e => {
-                    e.preventDefault()
-                    setPage(app ? 'confirmation' : 'home')
-                }}>
-                    ✖
-                </button>
-            </h1>
+            <Title title={business.name} setPage={setPage} setPageTo={app ? 'confirmation' : 'home'}/>
             <p>Select Appointment Type:</p>
             {business.categories.map(category => {
                 return (
