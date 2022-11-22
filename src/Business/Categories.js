@@ -1,4 +1,4 @@
-export const Categories = ({categories}) => {
+export const Categories = ({categories, setPage}) => {
     return(
         <div>
             {categories.map((category, index) => 
@@ -6,7 +6,9 @@ export const Categories = ({categories}) => {
                     {category.name}
                 </button>
             )}
-            <button>
+            <button
+                onClick={() => setPage('addCategory')}
+            >
                 + Add Category
             </button>
         </div>

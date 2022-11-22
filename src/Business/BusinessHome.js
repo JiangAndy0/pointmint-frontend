@@ -53,7 +53,12 @@ export const BusinessHome = ({user, setPage, tab, setTab, setAppointment}) => {
                     categories={user.categories}
                 />
             }
-            {tab === 'categories' && <Categories categories={user.categories}/>}
+            {tab === 'categories' && 
+                <Categories 
+                    categories={user.categories}
+                    setPage={setPage}
+                />
+            }
             
         </div>
     )
