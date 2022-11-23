@@ -9,6 +9,7 @@ export const CategoryForm = ({setPage, setTab, businessId, setUser, category, ap
 
     //input fields are disabled if there is an appointment already with a client in this category
     const disabled = category && appointments.some(app => app.client && app.category._id === category._id)
+
     const handleSubmit = async(e) => {
         e.preventDefault()
         setError("")
@@ -28,6 +29,26 @@ export const CategoryForm = ({setPage, setTab, businessId, setUser, category, ap
             setError("Something went wrong with your request. Please try again later.")
         }
     }
+
+    const handleDelete = async(e) => {
+        e.preventDefault()
+        setError("")
+        const res = await fetch(`${getApi()}/categories/delete`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({businessId, categoryId: category._id})
+        })
+        if(res.ok){
+            const updatedBusiness = await res.json()
+            setUser(updatedBusiness)
+            setPage('home')
+        } else {
+            setError("Something went wrong with deleting this category. Please try again later.")
+        }
+    }
+
     return (
         <form onSubmit={handleSubmit}>
             <Title title={category ? "Edit Category" : "Add Category"} setPage={setPage} setTab={setTab} setTabTo="categories"/>
@@ -96,6 +117,7 @@ export const CategoryForm = ({setPage, setTab, businessId, setUser, category, ap
             {category && 
                 <button
                     disabled={disabled}
+                    onClick={handleDelete}
                 >
                     Delete Category
                 </button>
