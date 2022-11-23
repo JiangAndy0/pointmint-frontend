@@ -4,7 +4,7 @@ import { BusinessAppointments } from "./BusinessAppointments"
 import { Categories } from "./Categories"
 import { FreeSlots } from "./FreeSlots"
 
-export const BusinessHome = ({user, setPage, tab, setTab, setAppointment}) => {
+export const BusinessHome = ({user, setPage, tab, setTab, setAppointment, setCategory}) => {
     return(
         <div>
             <Header setPage={setPage}/>
@@ -56,6 +56,7 @@ export const BusinessHome = ({user, setPage, tab, setTab, setAppointment}) => {
             {tab === 'categories' && 
                 <Categories 
                     categories={user.categories}
+                    setCategory={setCategory}
                     setPage={setPage}
                 />
             }

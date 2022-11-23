@@ -2,20 +2,23 @@ import { useState } from "react"
 import { getApi } from "../helpers"
 import { Title } from "../Title"
 
-export const AddCategory = ({setPage, setTab, businessId, setUser}) => {
-    const [name, setName] = useState("")
-    const [questions, setQuestions] = useState([])
+export const CategoryForm = ({setPage, setTab, businessId, setUser, category, appointments}) => {
+    const [name, setName] = useState(category ? category.name : "")
+    const [questions, setQuestions] = useState(category && category.questions ? category.questions : [])
     const [error, setError] = useState("")
 
+    //input fields are disabled if there is an appointment already with a client in this category
+    const disabled = category && appointments.some(app => app.client && app.category._id === category._id)
     const handleSubmit = async(e) => {
         e.preventDefault()
         setError("")
-        const res = await fetch(`${getApi()}/categories/add`, {
+        const bodyObj = category ? {businessId, name, questions, categoryId: category._id} : {businessId, name, questions}
+        const res = await fetch(`${getApi()}/categories/${category ? 'update' : 'add'}`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({businessId, name, questions})
+            body: JSON.stringify(bodyObj)
         })
         if(res.ok){
             const updatedBusiness = await res.json()
@@ -27,13 +30,15 @@ export const AddCategory = ({setPage, setTab, businessId, setUser}) => {
     }
     return (
         <form onSubmit={handleSubmit}>
-            <Title title="Add Category" setPage={setPage} setTab={setTab} setTabTo="categories"/>
+            <Title title={category ? "Edit Category" : "Add Category"} setPage={setPage} setTab={setTab} setTabTo="categories"/>
+            {disabled && <p>Edit and Delete disabled because clients have appointments with this category</p>}
             <label htmlFor="name">Category Name</label>
             <input 
                 id="name"
                 type="text"
                 value={name}
                 onChange={e => setName(e.target.value)}
+                disabled={disabled}
                 required
             />
             <h3>{"Questions for client (optional)"}</h3>
@@ -45,6 +50,7 @@ export const AddCategory = ({setPage, setTab, businessId, setUser}) => {
                             e.preventDefault()
                             setQuestions(prev => prev.slice(0, index).concat(prev.slice(index + 1)))
                         }}
+                        disabled={disabled}
                     >
                         Delete
                     </button>
@@ -58,6 +64,7 @@ export const AddCategory = ({setPage, setTab, businessId, setUser}) => {
                                 return newQuestions
                             })
                         }}
+                        disabled={disabled}
                         required 
                     />
                 </div>
@@ -71,15 +78,28 @@ export const AddCategory = ({setPage, setTab, businessId, setUser}) => {
                         return newQuestions
                     })
                 }}
+                disabled={disabled}
             >
                 + Add Question
             </button>
             {error && <p>{error}</p>}
             <input 
                 type="submit" 
-                value="Add Category"
+                value={category ? "Save Changes" : "Add Category"}
+                disabled={
+                    category 
+                    && category.name === name 
+                    && questions.length === category.questions.length
+                    && questions.every((q, i) => questions[i] === category.questions[i])
+                }
             />
-
+            {category && 
+                <button
+                    disabled={disabled}
+                >
+                    Delete Category
+                </button>
+            }
         </form>
     )
 }
