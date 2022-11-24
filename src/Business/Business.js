@@ -4,6 +4,7 @@ import { AddFreeSlots } from "./AddFreeSlots"
 import { Appointment } from "./Appointment"
 import { BusinessHome } from "./BusinessHome"
 import { BusinessProfileEdit } from "./BusinessProfileEdit"
+import { EditFreeSlot } from "./EditFreeSlot"
 
 export const Business = ({user, setUser}) => {
     const [page, setPage] = useState("home")
@@ -18,6 +19,16 @@ export const Business = ({user, setUser}) => {
             {page === 'profile' && <BusinessProfileEdit user={user} setUser={setUser} setPage={setPage}/>}
             {page === 'appointment' && <Appointment appointment={appointment} setPage={setPage} setUser={setUser}/>}
             {page === 'addFreeSlots' && <AddFreeSlots setPage={setPage} user={user} setTab={setTab} setUser={setUser}/>}
+            {page === 'editFreeSlot' && 
+                <EditFreeSlot
+                    setPage={setPage}
+                    setTab={setTab}
+                    setUser={setUser}
+                    businessId={user._id}
+                    categories={user.categories}
+                    freeSlot={appointment}
+                />
+            }
             {page === 'addCategory' && 
                 <CategoryForm setPage={setPage} setTab={setTab} setUser={setUser} businessId={user._id}/>}
             {page === 'editCategory' && 

@@ -27,7 +27,7 @@ export const FreeSlots = ({categories, appointments, setAppointment, setPage}) =
                         style={{border: "1px solid black"}}
                         onClick={() => {
                             setAppointment(app)
-                            setPage('freeSlot')
+                            setPage('editFreeSlot')
                         }}
                     >
                         {app.categories.map((category, index) => <p key={`category${index}`}>{category.name}</p>)}

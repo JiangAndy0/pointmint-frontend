@@ -36,7 +36,7 @@ export const AddFreeSlots = ({ setPage, setTab, user, setUser }) => {
                 ids.push(user.categories[index])
             }
         })
-        const res = await fetch(`${getApi()}/appointments/add`, {
+        const res = await fetch(`${getApi()}/freeslots/add`, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
