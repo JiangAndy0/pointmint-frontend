@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { getApi } from "../helpers"
+import { getApi, sortEarlyToLate } from "../helpers"
 import { Title } from "../Title"
 
 export const CategoryForm = ({setPage, setTab, businessId, setUser, category, appointments}) => {
@@ -23,6 +23,7 @@ export const CategoryForm = ({setPage, setTab, businessId, setUser, category, ap
         })
         if(res.ok){
             const updatedBusiness = await res.json()
+            sortEarlyToLate(updatedBusiness.appointments)
             setUser(updatedBusiness)
             setPage('home')
         } else {
@@ -42,6 +43,7 @@ export const CategoryForm = ({setPage, setTab, businessId, setUser, category, ap
         })
         if(res.ok){
             const updatedBusiness = await res.json()
+            sortEarlyToLate(updatedBusiness.appointments)
             setUser(updatedBusiness)
             setPage('home')
         } else {

@@ -11,7 +11,7 @@ export const EditFreeSlot = ({ setPage, setTab, setUser, businessId, categories,
     const [date, setDate] = useState(freeSlot.date)
     const [start, setStart] = useState(freeSlot.startTime)
     const [end, setEnd] = useState(freeSlot.endTime)
-    const [endError, setEndError] = useState("")
+    const [userError, setUserError] = useState("")
     const [submitError, setSubmitError] = useState("")
 
     const categoriesSame = categoryIds.every((catId, index) => {
@@ -25,13 +25,13 @@ export const EditFreeSlot = ({ setPage, setTab, setUser, businessId, categories,
     const handleSubmit = async(e) => {
         e.preventDefault()
         if(categoryIds.every(categoryId => !categoryId)){
-            setEndError("You have to select one or more appointment types.")
+            setUserError("You have to select one or more appointment types.")
             return
         } else if (end <= start){
-            setEndError("End time must be after start time.")
+            setUserError("End time must be after start time.")
             return
         }
-        setEndError("")
+        setUserError("")
         const ids = []
         categoryIds.forEach((id, index) => { //find the ids of the selected categories
             if(id){
@@ -53,6 +53,26 @@ export const EditFreeSlot = ({ setPage, setTab, setUser, businessId, categories,
             setTab('freeSlots')
         } else {
             setSubmitError("Something went wrong with your request. Please try again later")
+        }
+    }
+
+    const handleDelete = async(e) => {
+        e.preventDefault()
+        const res = await fetch(`${getApi()}/freeslots/delete`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({businessId, appId: freeSlot._id})
+        })
+        if(res.ok){
+            const updatedBusiness = await res.json()
+            sortEarlyToLate(updatedBusiness.appointments)
+            setUser(updatedBusiness)
+            setPage('home')
+            setTab('freeSlots')
+        } else {
+            setSubmitError("Something went wrong with deleting this free slot. Please try again later")
         }
     }
 
@@ -103,7 +123,7 @@ export const EditFreeSlot = ({ setPage, setTab, setUser, businessId, categories,
                 onChange={e => setEnd(e.target.value)}
                 required
             />
-            {endError && <p>{endError}</p>}
+            {userError && <p>{userError}</p>}
             <input
                 disabled={
                     date === freeSlot.date && start === freeSlot.startTime && 
@@ -112,6 +132,11 @@ export const EditFreeSlot = ({ setPage, setTab, setUser, businessId, categories,
                 type="submit"
                 value="Save Changes"
             />
+            <button
+                onClick={handleDelete}
+            >
+                Delete
+            </button>
             {submitError && <p>{submitError}</p>}
         </form>
     )
