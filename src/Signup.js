@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { selectStatus, updateUser } from "./app/userSlice"
 import { BusinessProfile } from "./Business/BusinessProfile"
 import { ClientProfile } from "./Client/ClientProfile"
 import { getApi } from "./helpers"
@@ -7,7 +9,8 @@ export const Signup = ({setUser}) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [accountType, setAccountType] = useState("client")
-    const [error, setError] = useState(false)
+    const status = useSelector(selectStatus)
+    const dispatch = useDispatch()
 
     //Business profile fields
     const [name, setName] = useState("")
@@ -32,7 +35,8 @@ export const Signup = ({setUser}) => {
         } else {
             elements = {username, password, accountType, email, phone, firstName, lastName}
         }
-        const res = await fetch(`${getApi()}/register`, {
+        dispatch(updateUser({endpoint: 'register', bodyObj: elements}))
+/*         const res = await fetch(`${getApi()}/register`, {
             method: 'POST',
             headers: {
                 "Content-Type": 'application/json'
@@ -44,7 +48,7 @@ export const Signup = ({setUser}) => {
             setUser(user) //will change the page to the Business/Client home page
         } else {
             setError(true)
-        }
+        } */
     }
     return (
         <form onSubmit={handleSubmit}>
@@ -68,7 +72,7 @@ export const Signup = ({setUser}) => {
                 />
                 <label htmlFor="businessRadio">Business</label>
             </div>
-            {error && <p>Username is already taken</p>}
+            {status === 'failed' && <p>Username is already taken</p>}
             <label htmlFor="username">Username</label>
             <input
                 type="text"

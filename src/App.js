@@ -13,7 +13,7 @@ function App() {
         {!user ? 
             <div>
                 <h1>Point<span>Mint</span></h1>
-                {page === 'login' && <Login setUser={setUser} setPage={setPage}/>}
+                {page === 'login' && <Login setPage={setPage}/>}
                 {page === 'signup' && <Signup setUser={setUser}/>}
             </div>
             :

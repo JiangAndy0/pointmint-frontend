@@ -1,37 +1,23 @@
 import { useState } from "react"
-import { getApi, sortEarlyToLate } from "./helpers"
+import { useDispatch, useSelector } from "react-redux"
+import { selectStatus, updateUser } from "./app/userSlice"
 
-export const Login = ({setUser, setPage}) => {
+export const Login = ({setPage}) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState(false)
+    const status = useSelector(selectStatus)
 
-    const api = getApi()
+    const dispatch = useDispatch()
 
     const handleSubmit = async(e) => {
         e.preventDefault()
-        const res = await fetch(`${api}/login`, {
-            method: "POST",
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({username, password})
-        })
-        if(res.ok){
-            setError(false)
-            const user = await res.json()
-            sortEarlyToLate(user.appointments) //sort the appointments from earliest to latest
-            setUser(user)
-        } else {
-            setError(true)
-        }
+        dispatch(updateUser({endpoint: 'login', bodyObj: {username, password}}))
     }
 
     return (
         <form onSubmit={handleSubmit}>
             <h2>Log in to your account</h2>
-            {error && <p>Username or password incorrect</p>}
+            {status === 'failed' && <p>Username or password incorrect</p>}
             <label htmlFor="username">Username</label>
             <input 
                 id="username" 
