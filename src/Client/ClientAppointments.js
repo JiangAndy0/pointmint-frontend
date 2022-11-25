@@ -1,6 +1,9 @@
+import { useSelector } from "react-redux"
+import { selectUser } from "../app/userSlice"
 import { formatDate, formatTime } from "../helpers"
 
-export const ClientAppointments = ({appointments, setAppointment, setPage}) => {
+export const ClientAppointments = ({setAppointment, setPage}) => {
+    const appointments = useSelector(selectUser).appointments
     return(
         <div>
             <h2>My Appointments</h2>

@@ -1,54 +1,43 @@
-import { useState } from "react"
-import { formatTime, getApi, sortEarlyToLate, formatDate } from "../helpers"
+import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { selectStatus, selectUser, updateUser } from "../app/userSlice"
+import { formatTime, formatDate } from "../helpers"
 import { Title } from "../Title"
 
-export const MakeAppointment = ({ business, setPage, setUser, setAppointment, clientId, app }) => {
+export const MakeAppointment = ({ business, setPage, setAppointment, app }) => {
+    const user = useSelector(selectUser)
+    const status = useSelector(selectStatus)
     const [category, setCategory] = useState(app ? app.category : "")
     const [appId, setAppId] = useState(app ? app._id : "")
     const [answers, setAnswers] = useState(app ? app.answers : [])
-    const [error, setError] = useState(false)
-
     const disableUpdate = app && app._id === appId && app.category._id === category._id
         && app.answers.every((answer, index) => answer === answers[index])
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        try {
-            if (app) {
-                //cancel the old appointment
-                const resCancel = await fetch(`${getApi()}/appointments/cancel`, {
-                    method: 'POST',
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ appointmentId: app._id })
-                })
-                console.log("Successfully canceled old appointment :", resCancel)
-            }
-            const resUpdate = await fetch(`${getApi()}/appointments/update`, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    appointmentId: appId,
-                    categoryId: category._id,
-                    clientId,
-                    answers
-                })
-            })
-            if (resUpdate.ok) {
-                const updatedClient = await resUpdate.json()
-                sortEarlyToLate(updatedClient.appointments)
-                setUser(updatedClient)
-                setAppointment(updatedClient.appointments.find(appointment => appointment._id === appId))
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        if(status === 'succeeded'){
+            const app = user.appointments.find(appointment => appointment._id === appId)
+            if(app){
+                setAppointment(app)
                 setPage('confirmation')
             }
-        } catch {
-            setError(true)
         }
+    })
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        if (app) {
+            //cancel the old appointment
+            dispatch(updateUser({
+                endpoint: 'appointments/cancel',
+                bodyObj: { appointmentId: app._id }
+            }))
+        }
+        dispatch(updateUser({
+            endpoint: 'appointments/update',
+            bodyObj: { appointmentId: appId, categoryId: category._id, clientId: user._id, answers }
+        }))
     }
     return (
         <form onSubmit={handleSubmit}>
@@ -120,7 +109,7 @@ export const MakeAppointment = ({ business, setPage, setUser, setAppointment, cl
                     />
                 </div>
             )}
-            {error && <p>Something went wrong with your request. Please try again later</p>}
+            {status === 'failed' && <p>Something went wrong with your request. Please try again later</p>}
             <input type="submit" value={app ? "Update Appointment" : "Request Appointment"} disabled={disableUpdate} />
         </form>
     )

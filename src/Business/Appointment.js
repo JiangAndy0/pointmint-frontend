@@ -12,6 +12,9 @@ export const Appointment = ({appointment, setPage}) => {
             endpoint: 'appointments/cancel', 
             bodyObj: {appointmentId: appointment._id, businessId: appointment.business}
         }))
+        if(status === 'succeeded'){
+            setPage('home')
+        }
     }
 
     return (

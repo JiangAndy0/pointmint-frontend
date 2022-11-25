@@ -25,7 +25,11 @@ export const userSlice = createSlice({
         data: "",
         status: "idle"
     },
-    reducers: {},
+    reducers: {
+        setStatus: (state, action) => {
+            state.status = action.payload
+        }
+    },
     extraReducers(builder) {
         builder
             .addCase(updateUser.pending, (state) => {
@@ -44,5 +48,6 @@ export const userSlice = createSlice({
 
 export default userSlice.reducer
 
+export const {setStatus} = userSlice.actions
 export const selectUser = state => state.user.data
 export const selectStatus = state => state.user.status

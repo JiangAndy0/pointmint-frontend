@@ -1,53 +1,40 @@
-import { useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import { selectStatus, setStatus, updateUser } from "../app/userSlice"
 import { formatDate, formatTime, getApi, sortEarlyToLate } from "../helpers"
 import { Title } from "../Title"
 
-export const Confirmation = ({ appointment, setUser, setPage, setBusiness }) => {
-    const [error, setError] = useState(false)
+export const Confirmation = ({ appointment, setPage, setBusiness }) => {
+    const status = useSelector(selectStatus)
+    const dispatch = useDispatch()
+
     const handleCancel = async (e) => {
         e.preventDefault()
-        try {
-            const res = await fetch(`${getApi()}/appointments/cancel`, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ appointmentId: appointment._id })
-            })
-            if (res.ok) {
-                const updatedClient = await res.json()
-                sortEarlyToLate(updatedClient.appointments)
-                setUser(updatedClient)
-                setPage('home')
-            }
-        } catch (err) {
-            console.log(err)
-            setError(true)
+        dispatch(updateUser({
+            endpoint: 'appointments/cancel',
+            bodyObj: {appointmentId: appointment._id}
+        }))
+        if (status === 'succeeded') {
+            setPage('home')
         }
     }
 
     const handleEdit = async () => {
-        try {
-            //we have to find the business doc to see all its appointments
-            const res = await fetch(`${getApi()}/businesses/${appointment.business.businessCode}`)
+        //we have to find the business doc to see all its appointments
+        const res = await fetch(`${getApi()}/businesses/${appointment.business.businessCode}`)
+        if(res.ok){
             const b1 = await res.json()
-            if (b1) {
-                //sort its appointments by date
-                sortEarlyToLate(b1.appointments)
-                setBusiness(b1)
-                setPage('editAppointment')
-            } else {
-                setError(true)
-            }
-        } catch {
-            setError(true)
+            //sort its appointments by date
+            sortEarlyToLate(b1.appointments)
+            setBusiness(b1)
+            setPage('editAppointment')
+        } else {
+            dispatch(setStatus('failed'))
         }
     }
 
     return (
         <div>
-            <Title title="Appointment Info" setPage={setPage}/>
+            <Title title="Appointment Info" setPage={setPage} />
             <p>
                 You are scheduled for a <strong>{appointment.category.name}</strong> appointment with
                 <strong> {appointment.business.name}</strong>
@@ -75,7 +62,7 @@ export const Confirmation = ({ appointment, setUser, setPage, setBusiness }) => 
                     {appointment.answers[index]}
                 </p>
             )}
-            {error && <p>Something went wrong with your request. Please try again later</p>}
+            {status === 'failed' && <p>Something went wrong with your request. Please try again later</p>}
             <button
                 onClick={e => {
                     e.preventDefault()
