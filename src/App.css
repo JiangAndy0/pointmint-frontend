@@ -1,38 +1,71 @@
-.App {
-  text-align: center;
+h1 {
+    font-style: italic;
+    text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1 span {
+    color: hsl(90 60% 50%);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.error {
+    color: hsl(0, 100%, 40%);
+    margin: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+input[type="text"], input[type="password"] {
+    font-size: 16px;
+    padding: 0.5rem;
+    background-color: hsl(0 0% 95%);
+    border-radius: 6px;
 }
 
-.App-link {
-  color: #61dafb;
+input[type="submit"] {
+    cursor: pointer;
+    display: block;
+    margin: 1rem auto;
+    max-width: 14rem;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: hsl(210 90% 40%);
+    color: white;
+    border: none;
+    border-radius: 1.5rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button {
+    cursor: pointer;
 }
+
+button.link {
+    border: none;
+    background-color: transparent;
+    text-decoration: underline;
+}
+
+button.link:hover {
+    color: hsl(210 90% 40%);
+}
+
+#login h2, .error {
+    text-align: center
+}
+
+#login label {
+    display: block;
+}
+
+#login section {
+    max-width: 18rem;
+    margin: 0 auto;
+}
+
+#login section > input {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+#login button.link {
+    display: block;
+    margin: 0 auto;
+}
+

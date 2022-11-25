@@ -14,7 +14,7 @@ function App() {
     return (
         <div className="App">
         {!user ? 
-            <div>
+            <div id="startScreen">
                 <h1>Point<span>Mint</span></h1>
                 {page === 'login' && <Login setPage={setPage}/>}
                 {page === 'signup' && <Signup setPage={setPage}/>}
