@@ -45,5 +45,4 @@ export const userSlice = createSlice({
 export default userSlice.reducer
 
 export const selectUser = state => state.user.data
-export const selectAppointments = state => state.user.data.appointments
 export const selectStatus = state => state.user.status

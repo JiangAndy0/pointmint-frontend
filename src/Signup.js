@@ -3,9 +3,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { selectStatus, updateUser } from "./app/userSlice"
 import { BusinessProfile } from "./Business/BusinessProfile"
 import { ClientProfile } from "./Client/ClientProfile"
-import { getApi } from "./helpers"
 
-export const Signup = ({setUser}) => {
+export const Signup = ({setPage}) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [accountType, setAccountType] = useState("client")
@@ -36,19 +35,6 @@ export const Signup = ({setUser}) => {
             elements = {username, password, accountType, email, phone, firstName, lastName}
         }
         dispatch(updateUser({endpoint: 'register', bodyObj: elements}))
-/*         const res = await fetch(`${getApi()}/register`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": 'application/json'
-            },
-            body: JSON.stringify(elements)
-        })
-        if (res.ok) {
-            const user = await res.json() //gets back a Business/Client document from database
-            setUser(user) //will change the page to the Business/Client home page
-        } else {
-            setError(true)
-        } */
     }
     return (
         <form onSubmit={handleSubmit}>
@@ -105,6 +91,14 @@ export const Signup = ({setUser}) => {
             />
             }
             <input type="submit" value="Create Account" />
+            <button 
+                onClick={e => {
+                    e.preventDefault()
+                    setPage('login')
+                }}
+            >
+                Already have an account? Log in
+            </button>
         </form>
     )
 }

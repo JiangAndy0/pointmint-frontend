@@ -1,10 +1,13 @@
 import { useState } from "react"
 import { Title } from "../Title"
-import { getApi, sortEarlyToLate } from "../helpers"
+import { useDispatch, useSelector } from "react-redux"
+import { selectStatus, selectUser, updateUser } from "../app/userSlice"
 
-export const EditFreeSlot = ({ setPage, setTab, setUser, businessId, categories, freeSlot }) => {
+export const EditFreeSlot = ({ setPage, setTab, freeSlot }) => {
+    const user = useSelector(selectUser)
+    const status = useSelector(selectStatus)
     const [categoryIds, setCategoryIds] = useState(
-        categories.map(cat =>
+        user.categories.map(cat =>
             freeSlot.categories.some(freeSlotCat => freeSlotCat._id === cat._id) //mark all the categories of this free slot
         )
     )
@@ -12,15 +15,14 @@ export const EditFreeSlot = ({ setPage, setTab, setUser, businessId, categories,
     const [start, setStart] = useState(freeSlot.startTime)
     const [end, setEnd] = useState(freeSlot.endTime)
     const [userError, setUserError] = useState("")
-    const [submitError, setSubmitError] = useState("")
-
     const categoriesSame = categoryIds.every((catId, index) => {
         if(catId){ //if the category is marked as checked, then the free slot should have the category
-            return freeSlot.categories.some(cat => cat._id === categories[index]._id)
+            return freeSlot.categories.some(cat => cat._id === user.categories[index]._id)
         } else { //if the category is not selected, then the free slot should not have the category 
-            return freeSlot.categories.every(cat => cat._id !== categories[index]._id)
+            return freeSlot.categories.every(cat => cat._id !== user.categories[index]._id)
         }
     })
+    const dispatch = useDispatch()
 
     const handleSubmit = async(e) => {
         e.preventDefault()
@@ -35,44 +37,28 @@ export const EditFreeSlot = ({ setPage, setTab, setUser, businessId, categories,
         const ids = []
         categoryIds.forEach((id, index) => { //find the ids of the selected categories
             if(id){
-                ids.push(categories[index]._id)
+                ids.push(user.categories[index]._id)
             }
         })
-        const res = await fetch(`${getApi()}/freeslots/edit`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({businessId, appId: freeSlot._id, date, startTime: start, endTime: end,  categoryIds: ids})
-        })
-        if(res.ok){
-            const updatedBusiness = await res.json()
-            sortEarlyToLate(updatedBusiness.appointments)
-            setUser(updatedBusiness)
+        dispatch(updateUser({
+            endpoint: 'freeslots/edit', 
+            bodyObj: {businessId: user._id, appId: freeSlot._id, date, startTime: start, endTime: end,  categoryIds: ids}
+        }))
+        if(status === 'succeeded'){
             setPage('home')
             setTab('freeSlots')
-        } else {
-            setSubmitError("Something went wrong with your request. Please try again later")
         }
     }
 
     const handleDelete = async(e) => {
         e.preventDefault()
-        const res = await fetch(`${getApi()}/freeslots/delete`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({businessId, appId: freeSlot._id})
-        })
-        if(res.ok){
-            const updatedBusiness = await res.json()
-            sortEarlyToLate(updatedBusiness.appointments)
-            setUser(updatedBusiness)
+        dispatch(updateUser({
+            endpoint: 'freeslots/delete',
+            bodyObj: {businessId: user._id, appId: freeSlot._id}
+        }))
+        if(status === 'succeeded'){
             setPage('home')
             setTab('freeSlots')
-        } else {
-            setSubmitError("Something went wrong with deleting this free slot. Please try again later")
         }
     }
 
@@ -80,7 +66,7 @@ export const EditFreeSlot = ({ setPage, setTab, setUser, businessId, categories,
         <form onSubmit={handleSubmit}>
             <Title title="Edit Free Slot" setPage={setPage} setTab={setTab} setTabTo="freeSlots" />
             <h3>{`Edit appointment type(s)`}</h3>
-            {categories.map((category, index) =>
+            {user.categories.map((category, index) =>
                 <div key={category._id}>
                     <input
                         type="checkbox"
@@ -137,7 +123,7 @@ export const EditFreeSlot = ({ setPage, setTab, setUser, businessId, categories,
             >
                 Delete
             </button>
-            {submitError && <p>{submitError}</p>}
+            {status === 'failed' && <p>Something went wrong with your request. Please try again later.</p>}
         </form>
     )
 }

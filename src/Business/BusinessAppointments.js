@@ -1,11 +1,12 @@
 import { useState } from "react"
 import { Filter } from "../Filter"
 import { formatDate, formatTime } from "../helpers"
-export const BusinessAppointments = ({categories, appointments, setPage, setAppointment}) => {
+
+export const BusinessAppointments = ({appointments, setPage, setAppointment}) => {
     const [category, setCategory] = useState("")
     return(
         <div>
-            <Filter category={category} setCategory={setCategory} categories={categories}/>
+            <Filter category={category} setCategory={setCategory}/>
             {appointments
                 .filter(app => Boolean(app.client))
                 .filter(app => {

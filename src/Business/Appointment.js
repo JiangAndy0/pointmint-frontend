@@ -1,30 +1,17 @@
-import { useState } from "react"
 import { Title } from "../Title"
-import { formatDate, formatTime, getApi, sortEarlyToLate } from "../helpers"
+import { formatDate, formatTime } from "../helpers"
+import { useDispatch, useSelector } from "react-redux"
+import { selectStatus, updateUser } from "../app/userSlice"
 
-export const Appointment = ({appointment, setPage, setUser}) => {
-    const [error, setError] = useState(false)
+export const Appointment = ({appointment, setPage}) => {
+    const status = useSelector(selectStatus)
+    const dispatch = useDispatch()
     const handleDecline = async(e) => {
         e.preventDefault()
-        try {
-            const res = await fetch(`${getApi()}/appointments/cancel`, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({appointmentId: appointment._id, businessId: appointment.business})
-            })
-            if(res.ok){
-                const updatedBusiness = await res.json()
-                sortEarlyToLate(updatedBusiness.appointments)
-                setUser(updatedBusiness)
-                setPage('home')
-            }
-        } catch (err){
-            console.log(err)
-            setError(true)
-        }
+        dispatch(updateUser({
+            endpoint: 'appointments/cancel', 
+            bodyObj: {appointmentId: appointment._id, businessId: appointment.business}
+        }))
     }
 
     return (
@@ -63,7 +50,7 @@ export const Appointment = ({appointment, setPage, setUser}) => {
             <button onClick={handleDecline}>
                 Decline
             </button>
-            {error && <p>Something went wrong with your request. Please try again later</p>}
+            {status === 'failed' && <p>Something went wrong with your request. Please try again later</p>}
         </div>
     )
 }

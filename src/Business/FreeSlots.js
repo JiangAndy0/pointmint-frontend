@@ -2,11 +2,11 @@ import { useState } from "react"
 import { Filter } from "../Filter"
 import { formatDate, formatTime } from "../helpers"
 
-export const FreeSlots = ({categories, appointments, setAppointment, setPage}) => {
+export const FreeSlots = ({appointments, setAppointment, setPage}) => {
     const [category, setCategory] = useState("")
     return (
         <div>
-            <Filter category={category} setCategory={setCategory} categories={categories}/>
+            <Filter category={category} setCategory={setCategory}/>
             <button
                 onClick={() => setPage("addFreeSlots")}
             >

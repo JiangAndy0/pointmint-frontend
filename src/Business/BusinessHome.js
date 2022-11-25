@@ -1,10 +1,13 @@
 import React from "react"
+import { useSelector } from "react-redux"
+import { selectUser } from "../app/userSlice"
 import { Header } from "../Header"
 import { BusinessAppointments } from "./BusinessAppointments"
 import { Categories } from "./Categories"
 import { FreeSlots } from "./FreeSlots"
 
-export const BusinessHome = ({user, setPage, tab, setTab, setAppointment, setCategory}) => {
+export const BusinessHome = ({setPage, tab, setTab, setAppointment, setCategory}) => {
+    const user = useSelector(selectUser)
     return(
         <div>
             <Header setPage={setPage}/>
@@ -42,15 +45,13 @@ export const BusinessHome = ({user, setPage, tab, setTab, setAppointment, setCat
                     appointments={user.appointments} 
                     setPage={setPage} 
                     setAppointment={setAppointment}
-                    categories={user.categories}
                 />
             }
             {tab === 'freeSlots' && 
                 <FreeSlots 
                     appointments={user.appointments} 
                     setAppointment={setAppointment} 
-                    setPage={setPage} 
-                    categories={user.categories}
+                    setPage={setPage}
                 />
             }
             {tab === 'categories' && 

@@ -6,7 +6,7 @@ import { BusinessHome } from "./BusinessHome"
 import { BusinessProfileEdit } from "./BusinessProfileEdit"
 import { EditFreeSlot } from "./EditFreeSlot"
 
-export const Business = ({user, setUser}) => {
+export const Business = () => {
     const [page, setPage] = useState("home")
     const [tab, setTab] = useState("appointments")
     const [appointment, setAppointment] = useState("")
@@ -14,31 +14,25 @@ export const Business = ({user, setUser}) => {
     return(
         <div>
             {page === 'home' && 
-                <BusinessHome user={user} setPage={setPage} setTab={setTab} tab={tab} setAppointment={setAppointment} setCategory={setCategory}/>
+                <BusinessHome setPage={setPage} setTab={setTab} tab={tab} setAppointment={setAppointment} setCategory={setCategory}/>
             }
-            {page === 'profile' && <BusinessProfileEdit user={user} setUser={setUser} setPage={setPage}/>}
-            {page === 'appointment' && <Appointment appointment={appointment} setPage={setPage} setUser={setUser}/>}
-            {page === 'addFreeSlots' && <AddFreeSlots setPage={setPage} user={user} setTab={setTab} setUser={setUser}/>}
+            {page === 'profile' && <BusinessProfileEdit setPage={setPage}/>}
+            {page === 'appointment' && <Appointment appointment={appointment} setPage={setPage}/>}
+            {page === 'addFreeSlots' && <AddFreeSlots setPage={setPage} setTab={setTab}/>}
             {page === 'editFreeSlot' && 
                 <EditFreeSlot
                     setPage={setPage}
                     setTab={setTab}
-                    setUser={setUser}
-                    businessId={user._id}
-                    categories={user.categories}
                     freeSlot={appointment}
                 />
             }
             {page === 'addCategory' && 
-                <CategoryForm setPage={setPage} setTab={setTab} setUser={setUser} businessId={user._id}/>}
+                <CategoryForm setPage={setPage} setTab={setTab}/>}
             {page === 'editCategory' && 
                 <CategoryForm 
                     setPage={setPage} 
                     setTab={setTab} 
-                    setUser={setUser} 
-                    businessId={user._id} 
-                    category={category} 
-                    appointments={user.appointments}
+                    category={category}
                 />
             }
         </div>

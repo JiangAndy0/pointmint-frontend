@@ -1,4 +1,8 @@
-export const Filter = ({ category, setCategory, categories }) => {
+import { useSelector } from "react-redux"
+import { selectUser } from "./app/userSlice"
+
+export const Filter = ({ category, setCategory }) => {
+    const categories = useSelector(selectUser).categories
     return (
         <select
             value={category}

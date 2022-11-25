@@ -1,4 +1,4 @@
-export const Categories = ({categories, setPage, setCategory}) => {
+export const Categories = ({ categories, setPage, setCategory}) => {
     return(
         <div>
             {categories.map((category, index) => 

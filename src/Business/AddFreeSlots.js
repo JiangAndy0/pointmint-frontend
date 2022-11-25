@@ -1,15 +1,20 @@
 import { useState } from "react"
-import { formatDate, formatTime, getApi, sortEarlyToLate } from "../helpers"
+import { useDispatch, useSelector } from "react-redux"
+import { selectStatus, selectUser, updateUser } from "../app/userSlice"
+import { formatDate, formatTime, sortEarlyToLate } from "../helpers"
 import { Title } from "../Title"
 
-export const AddFreeSlots = ({ setPage, setTab, user, setUser }) => {
+export const AddFreeSlots = ({ setPage, setTab }) => {
+    const user = useSelector(selectUser)
+    const status = useSelector(selectStatus)
     const [categoryIds, setCategoryIds] = useState(user.categories.map(category => false))
     const [date, setDate] = useState("")
     const [start, setStart] = useState("  :  ")
     const [end, setEnd] = useState("  :  ")
     const [endError, setEndError] = useState("")
-    const [submitError, setSubmitError] = useState("")
     const [slots, setSlots] = useState([])
+
+    const dispatch = useDispatch()
 
     const handleAdd = (e) => {
         e.preventDefault()
@@ -36,21 +41,10 @@ export const AddFreeSlots = ({ setPage, setTab, user, setUser }) => {
                 ids.push(user.categories[index])
             }
         })
-        const res = await fetch(`${getApi()}/freeslots/add`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({businessId: user._id, timeSlots: slots, categoryIds: ids})
-        })
-        if(res.ok){
-            const updatedBusiness = await res.json()
-            sortEarlyToLate(updatedBusiness.appointments)
-            setUser(updatedBusiness)
+        dispatch(updateUser({endpoint: 'freeslots/add', bodyObj: {businessId: user._id, timeSlots: slots, categoryIds: ids}}))
+        if(status === 'succeeded'){
             setPage('home')
             setTab('freeSlots')
-        } else {
-            setSubmitError("Something went wrong with your request. Please try again later")
         }
     }
 
@@ -124,7 +118,7 @@ export const AddFreeSlots = ({ setPage, setTab, user, setUser }) => {
                     Add {slots.length} Free Slot{slots.length > 1 && 's'}
                 </button>
             }
-            {submitError && <p>{submitError}</p>}
+            {status === 'failed' && <p>Something went wrong with your request. Please try again later</p>}
             
         </div>
     )

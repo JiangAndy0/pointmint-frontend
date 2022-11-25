@@ -1,53 +1,40 @@
 import { useState } from "react"
-import { getApi, sortEarlyToLate } from "../helpers"
+import { useDispatch, useSelector } from "react-redux"
+import { selectStatus, selectUser, updateUser } from "../app/userSlice"
 import { Title } from "../Title"
 
-export const CategoryForm = ({setPage, setTab, businessId, setUser, category, appointments}) => {
+export const CategoryForm = ({setPage, setTab, category}) => {
+    const user = useSelector(selectUser)
+    const status = useSelector(selectStatus)
     const [name, setName] = useState(category ? category.name : "")
     const [questions, setQuestions] = useState(category && category.questions ? category.questions : [])
-    const [error, setError] = useState("")
-
     //input fields are disabled if there is an appointment already with a client in this category
-    const disabled = category && appointments.some(app => app.client && app.category._id === category._id)
+    const disabled = category && user.appointments.some(app => app.client && app.category._id === category._id)
+
+    const dispatch = useDispatch()
 
     const handleSubmit = async(e) => {
         e.preventDefault()
-        setError("")
-        const bodyObj = category ? {businessId, name, questions, categoryId: category._id} : {businessId, name, questions}
-        const res = await fetch(`${getApi()}/categories/${category ? 'update' : 'add'}`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(bodyObj)
-        })
-        if(res.ok){
-            const updatedBusiness = await res.json()
-            sortEarlyToLate(updatedBusiness.appointments)
-            setUser(updatedBusiness)
+        const bodyObj = category 
+            ? {businessId: user._id, name, questions, categoryId: category._id} 
+            : {businessId: user._id, name, questions}
+        dispatch(updateUser({
+            endpoint: `categories/${category ? 'update' : 'add'}`,
+            bodyObj
+        }))
+        if(status === 'succeeded'){
             setPage('home')
-        } else {
-            setError("Something went wrong with your request. Please try again later.")
         }
     }
 
     const handleDelete = async(e) => {
         e.preventDefault()
-        setError("")
-        const res = await fetch(`${getApi()}/categories/delete`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({businessId, categoryId: category._id})
-        })
-        if(res.ok){
-            const updatedBusiness = await res.json()
-            sortEarlyToLate(updatedBusiness.appointments)
-            setUser(updatedBusiness)
+        dispatch(updateUser({
+            endpoint: 'categories/delete', 
+            bodyObj: {businessId: user._id, categoryId: category._id}
+        }))
+        if(status === 'succeeded'){
             setPage('home')
-        } else {
-            setError("Something went wrong with deleting this category. Please try again later.")
         }
     }
 
@@ -105,7 +92,7 @@ export const CategoryForm = ({setPage, setTab, businessId, setUser, category, ap
             >
                 + Add Question
             </button>
-            {error && <p>{error}</p>}
+            {status === 'failed' && <p>Something went wrong with your request. Please try again later</p>}
             <input 
                 type="submit" 
                 value={category ? "Save Changes" : "Add Category"}
