@@ -7,6 +7,7 @@ export const ClientHome = ({setPage, setBusiness, setAppointment }) => {
     <div>
         <Header setPage={setPage}/>
         <FormBusinessCode setPage={setPage} setBusiness={setBusiness} />
+        <hr></hr>
         <ClientAppointments
             setAppointment={setAppointment}
             setPage={setPage}

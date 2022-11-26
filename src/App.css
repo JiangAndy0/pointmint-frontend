@@ -1,3 +1,7 @@
+body {
+    padding: 0.5rem;
+}
+
 h1 {
     font-style: italic;
     text-align: center;
@@ -8,23 +12,30 @@ h1 span {
 }
 
 .error {
+    text-align: center;
     color: hsl(0, 100%, 40%);
     margin: none;
 }
 
-input[type="text"], input[type="password"] {
+hr {
+    border-top: 3px solid black;
+}
+
+input[type="text"], input[type="password"], input[type="tel"], input[type="email"]{
+    box-sizing: border-box;
     font-size: 16px;
+    width: 100%;
     padding: 0.5rem;
     background-color: hsl(0 0% 95%);
     border-radius: 6px;
+    border-color: hsl(0 0% 70%)
 }
 
 input[type="submit"] {
-    cursor: pointer;
     display: block;
-    margin: 1rem auto;
-    max-width: 14rem;
     width: 100%;
+    max-width: 15rem;
+    margin: 2rem auto 1rem;
     padding: 0.75rem;
     background-color: hsl(210 90% 40%);
     color: white;
@@ -32,40 +43,48 @@ input[type="submit"] {
     border-radius: 1.5rem;
 }
 
-button {
+input[type="submit"]:hover {
+    background-color: hsl(90 60% 50%);
+}
+
+button, input[type="submit"] {
     cursor: pointer;
 }
 
 button.link {
+    width: 100%;
+    text-align: center;
     border: none;
     background-color: transparent;
     text-decoration: underline;
+    margin-bottom: 1rem;
 }
 
 button.link:hover {
     color: hsl(210 90% 40%);
 }
 
-#login h2, .error {
-    text-align: center
+.label-field {
+    max-width: 20rem;
+    margin: 1rem auto;
 }
 
-#login label {
+.label-field label {
     display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
 }
 
-#login section {
-    max-width: 18rem;
-    margin: 0 auto;
+#business-address {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
 }
 
-#login section > input {
-    box-sizing: border-box;
-    width: 100%;
+.start-form h2, .start-form h3, #client-business-toggle {
+    text-align: center;
 }
 
-#login button.link {
-    display: block;
-    margin: 0 auto;
-}
+
+
 

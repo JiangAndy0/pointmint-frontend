@@ -4,7 +4,7 @@ import { selectStatus, updateUser } from "./app/userSlice"
 import { BusinessProfile } from "./Business/BusinessProfile"
 import { ClientProfile } from "./Client/ClientProfile"
 
-export const Signup = ({setPage}) => {
+export const Signup = ({ setPage }) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const [accountType, setAccountType] = useState("client")
@@ -29,17 +29,17 @@ export const Signup = ({setPage}) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         let elements
-        if(accountType === 'business'){
-            elements = {username, password, accountType, email, phone, name, businessCode, address}
+        if (accountType === 'business') {
+            elements = { username, password, accountType, email, phone, name, businessCode, address }
         } else {
-            elements = {username, password, accountType, email, phone, firstName, lastName}
+            elements = { username, password, accountType, email, phone, firstName, lastName }
         }
-        dispatch(updateUser({endpoint: 'register', bodyObj: elements}))
+        dispatch(updateUser({ endpoint: 'register', bodyObj: elements }))
     }
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="start-form">
             <h2>Sign up as</h2>
-            <div>
+            <div id="client-business-toggle">
                 <input
                     type="radio"
                     id="clientRadio"
@@ -58,40 +58,45 @@ export const Signup = ({setPage}) => {
                 />
                 <label htmlFor="businessRadio">Business</label>
             </div>
-            {status === 'failed' && <p>Username is already taken</p>}
-            <label htmlFor="username">Username</label>
-            <input
-                type="text"
-                minLength="6"
-                id="username"
-                value={username}
-                onChange={e => setUsername(e.target.value)}
-                required
-            />
-            <label htmlFor="password">Password</label>
-            <input
-                type="password"
-                minLength="8"
-                id="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                required
-            />
+            {status === 'failed' && <p className="error">Username is already taken</p>}
+            <div className="label-field">
+                <label htmlFor="username">Username</label>
+                <input
+                    type="text"
+                    minLength="6"
+                    id="username"
+                    value={username}
+                    onChange={e => setUsername(e.target.value)}
+                    required
+                />
+            </div>
+            <div className="label-field">
+                <label htmlFor="password">Password</label>
+                <input
+                    type="password"
+                    minLength="8"
+                    id="password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    required
+                />
+            </div>
             <h3>We just need a few things to get started</h3>
-            {accountType === 'business' 
-            ? 
-            <BusinessProfile 
-                name={name} email={email} businessCode={businessCode} phone={phone} address={address}
-                setName={setName} setEmail={setEmail} setBusinessCode={setBusinessCode} setPhone={setPhone} setAddress={setAddress}
-            /> 
-            : 
-            <ClientProfile 
-                firstName={firstName} lastName={lastName} email={email} phone={phone}
-                setFirstName={setFirstName} setLastName={setLastName} setEmail={setEmail} setPhone={setPhone}
-            />
+            {accountType === 'business'
+                ?
+                <BusinessProfile
+                    name={name} email={email} businessCode={businessCode} phone={phone} address={address}
+                    setName={setName} setEmail={setEmail} setBusinessCode={setBusinessCode} setPhone={setPhone} setAddress={setAddress}
+                />
+                :
+                <ClientProfile
+                    firstName={firstName} lastName={lastName} email={email} phone={phone}
+                    setFirstName={setFirstName} setLastName={setLastName} setEmail={setEmail} setPhone={setPhone}
+                />
             }
             <input type="submit" value="Create Account" />
-            <button 
+            <button
+                className="link"
                 onClick={e => {
                     e.preventDefault()
                     setPage('login')

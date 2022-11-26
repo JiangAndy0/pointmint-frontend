@@ -15,10 +15,10 @@ export const Login = ({ setPage }) => {
     }
 
     return (
-        <form onSubmit={handleSubmit} id="login">
+        <form onSubmit={handleSubmit} className="start-form">
             <h2>Log in to your account</h2>
             {status === 'failed' && <p className="error">Username or password incorrect</p>}
-            <section>
+            <section className="label-field">
                 <label htmlFor="username">Username</label>
                 <input
                     id="username"
@@ -27,7 +27,7 @@ export const Login = ({ setPage }) => {
                     onChange={e => setUsername(e.target.value)}
                 />
             </section>
-            <section>
+            <section className="label-field">
                 <label htmlFor="password">Password</label>
                 <input
                     id="password"
