@@ -18,7 +18,7 @@ export const Appointment = ({appointment, setPage}) => {
     }
 
     return (
-        <div>
+        <div className="popup-page">
             <Title title="Appointment Info" setPage={setPage}/>
             <p>
                 <strong>{appointment.client.firstName} {appointment.client.lastName}</strong> is scheduled for a 
@@ -43,6 +43,7 @@ export const Appointment = ({appointment, setPage}) => {
                 </p>
             )}
             <button
+                className="primary"
                 onClick={e => {
                     e.preventDefault()
                     setPage('home')
@@ -50,10 +51,10 @@ export const Appointment = ({appointment, setPage}) => {
             >
                 Return to Appointments
             </button>
-            <button onClick={handleDecline}>
+            <button onClick={handleDecline} className="danger full-width">
                 Decline
             </button>
-            {status === 'failed' && <p>Something went wrong with your request. Please try again later</p>}
+            {status === 'failed' && <p className="error">Something went wrong with your request. Please try again later</p>}
         </div>
     )
 }

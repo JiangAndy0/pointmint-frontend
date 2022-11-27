@@ -16,7 +16,9 @@ export const Header = ({setPage}) => {
             >
                 <FontAwesomeIcon icon={faUser} />
                 {dropDown &&
-                    <div>
+                    <div 
+                        className="dropdown"
+                    >
                         <p onClick={() => setPage('profile')}>Profile</p>
                         <p onClick={() => window.location.reload()}>Logout</p>
                     </div>

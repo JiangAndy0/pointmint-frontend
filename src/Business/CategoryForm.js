@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { selectStatus, selectUser, updateUser } from "../app/userSlice"
 import { Title } from "../Title"
 
-export const CategoryForm = ({setPage, setTab, category}) => {
+export const CategoryForm = ({ setPage, setTab, category }) => {
     const user = useSelector(selectUser)
     const status = useSelector(selectStatus)
     const [name, setName] = useState(category ? category.name : "")
@@ -13,49 +13,52 @@ export const CategoryForm = ({setPage, setTab, category}) => {
 
     const dispatch = useDispatch()
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        const bodyObj = category 
-            ? {businessId: user._id, name, questions, categoryId: category._id} 
-            : {businessId: user._id, name, questions}
+        const bodyObj = category
+            ? { businessId: user._id, name, questions, categoryId: category._id }
+            : { businessId: user._id, name, questions }
         dispatch(updateUser({
             endpoint: `categories/${category ? 'update' : 'add'}`,
             bodyObj
         }))
-        if(status === 'succeeded'){
+        if (status === 'succeeded') {
             setPage('home')
         }
     }
 
-    const handleDelete = async(e) => {
+    const handleDelete = async (e) => {
         e.preventDefault()
         dispatch(updateUser({
-            endpoint: 'categories/delete', 
-            bodyObj: {businessId: user._id, categoryId: category._id}
+            endpoint: 'categories/delete',
+            bodyObj: { businessId: user._id, categoryId: category._id }
         }))
-        if(status === 'succeeded'){
+        if (status === 'succeeded') {
             setPage('home')
         }
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <Title title={category ? "Edit Category" : "Add Category"} setPage={setPage} setTab={setTab} setTabTo="categories"/>
-            {disabled && <p>Edit and Delete disabled because clients have appointments with this category</p>}
-            <label htmlFor="name">Category Name</label>
-            <input 
-                id="name"
-                type="text"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                disabled={disabled}
-                required
-            />
+        <form onSubmit={handleSubmit} id="category-form" className="popup-page">
+            <Title title={category ? "Edit Category" : "Add Category"} setPage={setPage} setTab={setTab} setTabTo="categories" />
+            {disabled && <p className="error">Edit and Delete disabled because clients have appointments with this category</p>}
+            <div className="label-field">
+                <label htmlFor="name">Category Name</label>
+                <input
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    disabled={disabled}
+                    required
+                />
+            </div>
             <h3>{"Questions for client (optional)"}</h3>
-            {questions.map((question, index) => 
+            {questions.map((question, index) =>
                 <div key={`question${index}`}>
                     <label htmlFor={`question${index}`}>Question {index + 1}</label>
                     <button
+                        className="link delete"
                         onClick={(e) => {
                             e.preventDefault()
                             setQuestions(prev => prev.slice(0, index).concat(prev.slice(index + 1)))
@@ -75,11 +78,12 @@ export const CategoryForm = ({setPage, setTab, category}) => {
                             })
                         }}
                         disabled={disabled}
-                        required 
+                        required
                     />
                 </div>
             )}
             <button
+                className="link"
                 onClick={(e) => {
                     e.preventDefault()
                     setQuestions(prev => {
@@ -92,20 +96,21 @@ export const CategoryForm = ({setPage, setTab, category}) => {
             >
                 + Add Question
             </button>
-            {status === 'failed' && <p>Something went wrong with your request. Please try again later</p>}
-            <input 
-                type="submit" 
+            {status === 'failed' && <p className="error">Something went wrong with your request. Please try again later</p>}
+            <input
+                type="submit"
                 value={category ? "Save Changes" : "Add Category"}
                 disabled={
-                    category 
-                    && category.name === name 
+                    category
+                    && category.name === name
                     && questions.length === category.questions.length
                     && questions.every((q, i) => questions[i] === category.questions[i])
                 }
             />
-            {category && 
+            {category &&
                 <button
                     disabled={disabled}
+                    className="danger full-width"
                     onClick={handleDelete}
                 >
                     Delete Category

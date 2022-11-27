@@ -37,9 +37,9 @@ export const Signup = ({ setPage }) => {
         dispatch(updateUser({ endpoint: 'register', bodyObj: elements }))
     }
     return (
-        <form onSubmit={handleSubmit} className="start-form">
-            <h2>Sign up as</h2>
-            <div id="client-business-toggle">
+        <form onSubmit={handleSubmit} id="signup">
+            <h2>Sign up as:</h2>
+            <div id="client-business-toggle" className="tab-select">
                 <input
                     type="radio"
                     id="clientRadio"
@@ -48,7 +48,7 @@ export const Signup = ({ setPage }) => {
                     defaultChecked
                     onChange={handleAccountChange}
                 />
-                <label htmlFor="clientRadio">Client</label>
+                <label htmlFor="clientRadio" className={accountType === 'client' && 'active'}>Client</label>
                 <input
                     type="radio"
                     id="businessRadio"
@@ -56,7 +56,7 @@ export const Signup = ({ setPage }) => {
                     value="business"
                     onChange={handleAccountChange}
                 />
-                <label htmlFor="businessRadio">Business</label>
+                <label htmlFor="businessRadio" className={accountType === 'business' && 'active'}>Business</label>
             </div>
             {status === 'failed' && <p className="error">Username is already taken</p>}
             <div className="label-field">

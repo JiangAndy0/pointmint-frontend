@@ -34,22 +34,22 @@ export const AddFreeSlots = ({ setPage, setTab }) => {
         setEnd("  :  ")
     }
 
-    const handleSubmit = async() => {
+    const handleSubmit = async () => {
         const ids = []
         categoryIds.forEach((id, index) => { //find the ids of the selected categories
-            if(id){
+            if (id) {
                 ids.push(user.categories[index])
             }
         })
-        dispatch(updateUser({endpoint: 'freeslots/add', bodyObj: {businessId: user._id, timeSlots: slots, categoryIds: ids}}))
-        if(status === 'succeeded'){
+        dispatch(updateUser({ endpoint: 'freeslots/add', bodyObj: { businessId: user._id, timeSlots: slots, categoryIds: ids } }))
+        if (status === 'succeeded') {
             setPage('home')
             setTab('freeSlots')
         }
     }
 
     return (
-        <div>
+        <div className="popup-page">
             <Title title="Add Free Slot(s)" setPage={setPage} setTab={setTab} setTabTo="freeSlots" />
             <h3>{`Select appointment type(s)`}</h3>
             {user.categories.map((category, index) =>
@@ -67,59 +67,72 @@ export const AddFreeSlots = ({ setPage, setTab }) => {
                             })
                         }}
                     />
-                    <label htmlFor={category.name}>{category.name}</label>
+                    <label htmlFor={category.name}>
+                        {category.name}
+                    </label>
                 </div>
             )}
             {categoryIds.some(categoryId => Boolean(categoryId)) &&
                 <form onSubmit={handleAdd}>
                     <h3>Add time slots</h3>
-                    <label htmlFor="date">Date</label>
-                    <input
-                        type="date"
-                        id="date"
-                        value={date}
-                        onChange={e => setDate(e.target.value)}
-                        required
-                    />
-                    <label htmlFor="start">Start</label>
-                    <input
-                        type="time"
-                        id="start"
-                        value={start}
-                        onChange={e => setStart(e.target.value)}
-                        required
-                    />
-                    <label htmlFor="end">End</label>
-                    <input
-                        type="time"
-                        id="end"
-                        value={end}
-                        onChange={e => setEnd(e.target.value)}
-                        required
-                    />
-                    {endError && <p>{endError}</p>}
-                    <input type="submit" value="+ Add Time Slot" />
+                    <div className="label-field">
+                        <label htmlFor="date">Date</label>
+                        <input
+                            type="date"
+                            id="date"
+                            value={date}
+                            onChange={e => setDate(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="start-end">
+                        <div className="label-field">
+                            <label htmlFor="start">Start</label>
+                            <input
+                                type="time"
+                                id="start"
+                                value={start}
+                                onChange={e => setStart(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="label-field">
+                            <label htmlFor="end">End</label>
+                            <input
+                                type="time"
+                                id="end"
+                                value={end}
+                                onChange={e => setEnd(e.target.value)}
+                                required
+                            />
+                        </div>
+                    </div>
+                    {endError && <p className="error">{endError}</p>}
+                    <input type="submit" className="add" value="+ Add Time Slot" />
                 </form>
             }
-            {slots.map((slot, index) =>
-                <button 
-                    key={`slot${index}`}
-                    onClick={() => setSlots(slots.slice(0, index).concat(slots.slice(index + 1)))}
-                >
-                    {formatDate(slot.date)} {formatTime(slot.startTime)}-{formatTime(slot.endTime)}
-                </button>
-            )}
-            <br></br>
-            { categoryIds.some(categoryId => Boolean(categoryId)) && 
+            <div id="added-slots">
+                {slots.map((slot, index) =>
+                    <button
+                        key={`slot${index}`}
+                        onClick={() => setSlots(slots.slice(0, index).concat(slots.slice(index + 1)))}
+                    >
+                        {formatDate(slot.date)}<span>✖</span><br></br>
+                        {formatTime(slot.startTime)}-{formatTime(slot.endTime)}
+                    </button>
+                )}
+            </div>
+            {slots.length > 0 &&
                 <button
+                    className="primary"
                     disabled={slots.length === 0}
                     onClick={handleSubmit}
                 >
                     Add {slots.length} Free Slot{slots.length > 1 && 's'}
                 </button>
             }
-            {status === 'failed' && <p>Something went wrong with your request. Please try again later</p>}
-            
+            {status === 'failed' && <p className="error">Something went wrong with your request. Please try again later</p>}
+
         </div>
     )
 }

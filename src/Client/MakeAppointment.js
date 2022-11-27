@@ -40,21 +40,26 @@ export const MakeAppointment = ({ business, setPage, setAppointment, app }) => {
         }))
     }
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="popup-page">
             <Title title={business.name} setPage={setPage} setPageTo={app ? 'confirmation' : 'home'} />
-            <p>Select Appointment Type:</p>
+            <h4>Select Appointment Type:</h4>
             {business.categories.map(category =>
                 <div key={category._id}>
                     <input
                         type="radio"
                         id={category.name}
+                        className="category-radio"
                         name="category"
                         value={category._id}
                         onClick={e => {
                             const newCategory = business.categories.find(category => category._id === e.target.value)
-                            for (let i = 0; i < answers.length; i++) {
-                                answers[i] = ""
-                            }
+                            setAnswers(prev => {
+                                const newAnswers = prev.slice()
+                                for (let i = 0; i < answers.length; i++) {
+                                    newAnswers[i] = ""
+                                }
+                                return newAnswers
+                            })
                             setAppId("")
                             setCategory(newCategory)
                         }}
@@ -64,7 +69,7 @@ export const MakeAppointment = ({ business, setPage, setAppointment, app }) => {
                     <label htmlFor={category.name}>{category.name}</label>
                 </div>
             )}
-            <p>Select Appointment Slot:</p>
+            {category && <h4>Select Appointment Slot:</h4>}
             {category && business.appointments
                 .filter(appointment =>
                     appointment.categories.some(cat => cat._id === category._id)
@@ -91,14 +96,12 @@ export const MakeAppointment = ({ business, setPage, setAppointment, app }) => {
                     </div>
                 )
             }
-            <p>Please answer a few questions about the appointment:</p>
-            {category && category.questions.map((question, index) =>
+            {(appId && category.questions.length !== 0) && <h3>Please answer a few questions about the appointment:</h3>}
+            {appId && category.questions.map((question, index) =>
                 <div key={`question${index}`}>
-                    <label htmlFor={`question${index}`}>{question}</label>
+                    <label htmlFor={`question${index}`} className="textarea-label">{question}</label>
                     <textarea
                         id={`question${index}`}
-                        rows="5"
-                        cols="33"
                         value={answers[index]}
                         onChange={e => setAnswers(prev => {
                             const newAnswers = prev.slice()
@@ -110,7 +113,6 @@ export const MakeAppointment = ({ business, setPage, setAppointment, app }) => {
                 </div>
             )}
             {status === 'failed' && <p>Something went wrong with your request. Please try again later</p>}
-            <input type="submit" value={app ? "Update Appointment" : "Request Appointment"} disabled={disableUpdate} />
-        </form>
+            {appId && <input type="submit" value={app ? "Update Appointment" : "Request Appointment"} disabled={disableUpdate} />}        </form>
     )
 }

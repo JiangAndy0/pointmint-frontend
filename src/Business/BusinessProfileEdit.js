@@ -1,10 +1,9 @@
 import { useState } from "react"
 import { BusinessProfile } from "./BusinessProfile"
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faXmark } from "@fortawesome/free-solid-svg-icons"
 import { useDispatch, useSelector } from "react-redux"
 import { selectStatus, selectUser, updateUser } from "../app/userSlice"
+import { Title } from "../Title"
 
 export const BusinessProfileEdit = ({ setPage }) => {
     const user = useSelector(selectUser)
@@ -30,17 +29,9 @@ export const BusinessProfileEdit = ({ setPage }) => {
     }
 
     return (
-        <form onSubmit={handleSave}>
-            <h2>Profile</h2>
-            <button
-                onClick={e => {
-                    e.preventDefault()
-                    setPage('home')
-                }}
-            >
-                <FontAwesomeIcon icon={faXmark} />
-            </button>
-            {status === 'failed' && <p>Something went wrong with your request. Try again later</p>}
+        <form onSubmit={handleSave} className="popup-page">
+            <Title title="Profile" setPage={setPage}/>
+            {status === 'failed' && <p className="error">Something went wrong with your request. Try again later</p>}
             <BusinessProfile
                 name={name} businessCode={businessCode} email={email} phone={phone} address={address}
                 setName={setName} setEmail={setEmail} setBusinessCode={setBusinessCode} setPhone={setPhone} setAddress={setAddress}

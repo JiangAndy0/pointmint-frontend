@@ -1,6 +1,6 @@
 export const Title = ({ title, setPage, setPageTo, setTab, setTabTo }) => {
     return (
-        <div>
+        <div id="title-row">
             <h2>{title}</h2>
             <button
                 onClick={() => {

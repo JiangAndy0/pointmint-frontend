@@ -39,7 +39,7 @@ export const Login = ({ setPage }) => {
             </section>
             <input type="submit" value="Log in" />
             <button
-                class="link"
+                className="link"
                 onClick={e => {
                     e.preventDefault()
                     setPage('signup')

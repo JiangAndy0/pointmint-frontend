@@ -1,16 +1,16 @@
 import { useState } from "react"
 import { getApi, sortEarlyToLate } from "../helpers"
 
-export const FormBusinessCode = ({setPage, setBusiness}) => {
+export const FormBusinessCode = ({ setPage, setBusiness }) => {
     const [businessCode, setBusinessCode] = useState('')
     const [error, setError] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        try{
+        try {
             const res = await fetch(`${getApi()}/businesses/${businessCode}`)
             const b1 = await res.json()
-            if(b1){
+            if (b1) {
                 //sort its appointments by date
                 sortEarlyToLate(b1.appointments)
                 setBusiness(b1)
@@ -24,16 +24,19 @@ export const FormBusinessCode = ({setPage, setBusiness}) => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} id="business-code-form">
             <label htmlFor="business-code">Enter a Business Code</label>
-            <input 
-                id="business-code" 
-                type="text" 
-                value={businessCode}
-                onChange={e => setBusinessCode(e.target.value)}
-            />
-            <input type="submit" value="Go" />
-            {error && <p>Cannot find business with that business code</p>}
+            <div>
+                <input
+                    id="business-code"
+                    type="text"
+                    value={businessCode}
+                    onChange={e => setBusinessCode(e.target.value)}
+                    placeholder="try: jerry-renewable-3"
+                />
+                <input type="submit" value="Go" />
+            </div>
+            {error && <p className="error">Cannot find business with that business code</p>}
         </form>
     )
 }

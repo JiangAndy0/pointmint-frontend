@@ -27,13 +27,13 @@ export const ClientProfileEdit = ({setPage}) => {
         }
     }
     return (
-        <form onSubmit={handleSave}>
+        <form onSubmit={handleSave} className="popup-page">
             <Title title="Profile" setPage={setPage}/>
             <ClientProfile 
                 firstName={firstName} lastName={lastName} email={email} phone={phone}
                 setFirstName={setFirstName} setLastName={setLastName} setEmail={setEmail} setPhone={setPhone}
             />
-            {status === 'failed' && <p>Something went wrong with your request. Try again later</p>}
+            {status === 'failed' && <p className="error">Something went wrong with your request. Try again later</p>}
             <input type="submit" value="Save Changes" disabled={saveBtnDisabled} />
         </form>
     )

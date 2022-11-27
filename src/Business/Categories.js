@@ -1,8 +1,10 @@
 export const Categories = ({ categories, setPage, setCategory}) => {
     return(
-        <div>
+        <div className="tab-page">
+            {categories.length === 0 && <p style={{textAlign: 'left'}}>No categories, tap on +Add Category to create one.</p>}
             {categories.map((category, index) => 
                 <button 
+                    className="category-entry"
                     key={`category${index}`}
                     onClick={() => {
                         setCategory(category)
@@ -13,6 +15,7 @@ export const Categories = ({ categories, setPage, setCategory}) => {
                 </button>
             )}
             <button
+                className="link"
                 onClick={() => setPage('addCategory')}
             >
                 + Add Category

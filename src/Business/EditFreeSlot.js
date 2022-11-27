@@ -16,7 +16,7 @@ export const EditFreeSlot = ({ setPage, setTab, freeSlot }) => {
     const [end, setEnd] = useState(freeSlot.endTime)
     const [userError, setUserError] = useState("")
     const categoriesSame = categoryIds.every((catId, index) => {
-        if(catId){ //if the category is marked as checked, then the free slot should have the category
+        if (catId) { //if the category is marked as checked, then the free slot should have the category
             return freeSlot.categories.some(cat => cat._id === user.categories[index]._id)
         } else { //if the category is not selected, then the free slot should not have the category 
             return freeSlot.categories.every(cat => cat._id !== user.categories[index]._id)
@@ -24,50 +24,50 @@ export const EditFreeSlot = ({ setPage, setTab, freeSlot }) => {
     })
     const dispatch = useDispatch()
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        if(categoryIds.every(categoryId => !categoryId)){
+        if (categoryIds.every(categoryId => !categoryId)) {
             setUserError("You have to select one or more appointment types.")
             return
-        } else if (end <= start){
+        } else if (end <= start) {
             setUserError("End time must be after start time.")
             return
         }
         setUserError("")
         const ids = []
         categoryIds.forEach((id, index) => { //find the ids of the selected categories
-            if(id){
+            if (id) {
                 ids.push(user.categories[index]._id)
             }
         })
         dispatch(updateUser({
-            endpoint: 'freeslots/edit', 
-            bodyObj: {businessId: user._id, appId: freeSlot._id, date, startTime: start, endTime: end,  categoryIds: ids}
+            endpoint: 'freeslots/edit',
+            bodyObj: { businessId: user._id, appId: freeSlot._id, date, startTime: start, endTime: end, categoryIds: ids }
         }))
-        if(status === 'succeeded'){
+        if (status === 'succeeded') {
             setPage('home')
             setTab('freeSlots')
         }
     }
 
-    const handleDelete = async(e) => {
+    const handleDelete = async (e) => {
         e.preventDefault()
         dispatch(updateUser({
             endpoint: 'freeslots/delete',
-            bodyObj: {businessId: user._id, appId: freeSlot._id}
+            bodyObj: { businessId: user._id, appId: freeSlot._id }
         }))
-        if(status === 'succeeded'){
+        if (status === 'succeeded') {
             setPage('home')
             setTab('freeSlots')
         }
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="popup-page">
             <Title title="Edit Free Slot" setPage={setPage} setTab={setTab} setTabTo="freeSlots" />
             <h3>{`Edit appointment type(s)`}</h3>
             {user.categories.map((category, index) =>
-                <div key={category._id}>
+                <div key={category._id} className="checkbox-container">
                     <input
                         type="checkbox"
                         id={category.name}
@@ -85,45 +85,54 @@ export const EditFreeSlot = ({ setPage, setTab, freeSlot }) => {
                     <label htmlFor={category.name}>{category.name}</label>
                 </div>
             )}
-            <label htmlFor="date">Date</label>
-            <input
-                type="date"
-                id="date"
-                value={date}
-                onChange={e => setDate(e.target.value)}
-                required
-            />
-            <label htmlFor="start">Start</label>
-            <input
-                type="time"
-                id="start"
-                value={start}
-                onChange={e => setStart(e.target.value)}
-                required
-            />
-            <label htmlFor="end">End</label>
-            <input
-                type="time"
-                id="end"
-                value={end}
-                onChange={e => setEnd(e.target.value)}
-                required
-            />
-            {userError && <p>{userError}</p>}
+            <div className="label-field">
+                <label htmlFor="date">Date</label>
+                <input
+                    type="date"
+                    id="date"
+                    value={date}
+                    onChange={e => setDate(e.target.value)}
+                    required
+                />
+            </div>
+            <div className="start-end">
+                <div className="label-field">
+                    <label htmlFor="start">Start</label>
+                    <input
+                        type="time"
+                        id="start"
+                        value={start}
+                        onChange={e => setStart(e.target.value)}
+                        required
+                    />
+                </div>
+                <div className="label-field">
+                    <label htmlFor="end">End</label>
+                    <input
+                        type="time"
+                        id="end"
+                        value={end}
+                        onChange={e => setEnd(e.target.value)}
+                        required
+                    />
+                </div>
+            </div>
+            {userError && <p className="error">{userError}</p>}
             <input
                 disabled={
-                    date === freeSlot.date && start === freeSlot.startTime && 
+                    date === freeSlot.date && start === freeSlot.startTime &&
                     end === freeSlot.endTime && categoriesSame
                 }
                 type="submit"
                 value="Save Changes"
             />
             <button
+                className="full-width danger"
                 onClick={handleDelete}
             >
                 Delete
             </button>
-            {status === 'failed' && <p>Something went wrong with your request. Please try again later.</p>}
+            {status === 'failed' && <p className="error">Something went wrong with your request. Please try again later.</p>}
         </form>
     )
 }

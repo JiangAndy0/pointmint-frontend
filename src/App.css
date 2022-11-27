@@ -1,18 +1,17 @@
 body {
     padding: 0.5rem;
+    text-align: center;
 }
 
 h1 {
     font-style: italic;
-    text-align: center;
 }
 
 h1 span {
-    color: hsl(90 60% 50%);
+    color: hsl(90 70% 50%);
 }
 
 .error {
-    text-align: center;
     color: hsl(0, 100%, 40%);
     margin: none;
 }
@@ -21,51 +20,172 @@ hr {
     border-top: 3px solid black;
 }
 
-input[type="text"], input[type="password"], input[type="tel"], input[type="email"]{
+input[type="text"], input[type="password"], input[type="tel"], input[type="email"], textarea {
     box-sizing: border-box;
-    font-size: 16px;
-    width: 100%;
-    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 2px solid hsl(0 0% 70%);
     background-color: hsl(0 0% 95%);
-    border-radius: 6px;
-    border-color: hsl(0 0% 70%)
+    width: 100%;
+    font-size: 16px;
 }
 
-input[type="submit"] {
+input[type="date"], input[type="time"] {
+    border: 2px solid hsl(0 0% 70%);
+    padding: 0.5rem;
+    font-size: 16px;
+    border-radius: 0.5rem;
+}
+
+select {
+    font-size: 16px;
+    padding: 4px 2rem 4px 1rem;
+    border-radius: 1rem;
+    border: none;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    appearance: none;
+    background-image: url('./Images/Caret_down_font_awesome.svg');
+    background-color:  hsl(0 0% 90%);
+    background-repeat: no-repeat;
+    background-position: right 4px top 3px;
+    background-size: 20px 20px;
+}
+
+option {
+    background-color: white;
+}
+
+textarea {
     display: block;
     width: 100%;
-    max-width: 15rem;
-    margin: 2rem auto 1rem;
-    padding: 0.75rem;
-    background-color: hsl(210 90% 40%);
+    height: 6rem;
+    margin: 0.5rem 0 1rem;
+    resize: vertical;
+    padding: 0.5rem;
+}
+
+input[type="text"], input[type="password"], input[type="tel"], input[type="email"]{
+    max-width: 25rem;
+    padding: 0.5rem;
+}
+
+input[type="radio"]:disabled + label {
+    color: hsl(0 0% 70%)
+}
+
+input[type="checkbox"], .category-radio {
+    opacity: 0;
+    position: fixed;
+    pointer-events: none;
+}
+
+input[type="checkbox"] + label, .category-radio + label {
+    background-color: hsl(0 0% 90%);
+    color: black;
+    margin: 0.5rem auto;
+    vertical-align: middle;
+}
+
+input[type="checkbox"]:checked + label, .category-radio:checked + label {
+    background-color: hsl(90 70% 30%);
     color: white;
-    border: none;
+    margin: 0.5rem auto;
+    vertical-align: middle;
+}
+
+button.full-width, input[type="submit"], button.primary, input[type="checkbox"] + label, .category-radio + label {
+    display: block;
+    width: 100%;
+    max-width: 18rem;
+    padding: 0.75rem;
     border-radius: 1.5rem;
 }
 
-input[type="submit"]:hover {
-    background-color: hsl(90 60% 50%);
+button.full-width {
+    margin: 1rem auto;
 }
 
-button, input[type="submit"] {
+input[type="submit"], button.primary {
+    margin: 1.5rem auto 1rem;
+    background-color: hsl(210 90% 40%);
+    color: white;
+    border-radius: 1.5rem;
+}
+
+input[type="submit"]:hover, button.primary:hover {
+    background-color: hsl(210 90% 50%);
+}
+
+input[type="submit"]:disabled, button.primary:disabled, button.full-width:disabled {
+    background-color: hsl(0 0% 90%) !important;
+    color: white !important;
+    cursor: default;
+}
+
+button, input[type="submit"], input[type="checkbox"] + label, .category-radio + label {
     cursor: pointer;
+    border: none;
 }
 
 button.link {
+    display: block;
     width: 100%;
-    text-align: center;
     border: none;
     background-color: transparent;
     text-decoration: underline;
-    margin-bottom: 1rem;
-}
-
-button.link:hover {
+    margin: 1rem 0;
     color: hsl(210 90% 40%);
 }
 
+button.link:disabled, button.link.delete:disabled {
+    background-color: transparent;
+    color: hsl(0 0% 70%);
+}
+
+button.link.delete {
+    display: inline;
+    width: auto;
+    color:hsl(0, 80%, 30%);
+    margin: 0;
+}
+
+button.link:not([disabled]):hover {
+    color: hsl(90 70% 30%);
+}
+
+button.link.delete:not([disabled]):hover {
+    color:hsl(0, 100%, 30%)
+}
+
+button.danger {
+    background-color: hsl(0, 80%, 30%);
+    color: white;
+}
+
+button.danger:hover {
+    background-color: hsl(0, 100%, 30%);
+}
+
+button.add, input[type="submit"].add {
+    width: auto;
+    background-color: hsl(90 70% 30%);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 16px;
+}
+
+button.add:hover, input[type="submit"].add:hover {
+    background-color: hsl(90 70% 40%);
+}
+
+.popup-page {
+    max-width: 30rem;
+    margin: 0 auto;
+}
+
 .label-field {
-    max-width: 20rem;
+    max-width: 25rem;
     margin: 1rem auto;
 }
 
@@ -81,10 +201,284 @@ button.link:hover {
     row-gap: 0.5rem;
 }
 
-.start-form h2, .start-form h3, #client-business-toggle {
-    text-align: center;
+header, #title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+header {
+    column-gap: 1rem;
+}
 
+header button {
+    position: relative;
+    background-color: hsl(0 0% 70%);
+    color: white;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+}
 
+header svg {
+    font-size: 18px;
+}
 
+header .dropdown {
+    position: absolute;
+    top: 2rem;
+    right: -3.75rem;
+    background-color: white;
+    color: black;
+    box-shadow: 3px 3px 8px hsla(0 0% 0% / .5);
+    border-radius: 0.5rem;
+    width: 10rem;
+}
+
+.dropdown p {
+    margin: 0;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.dropdown p:first-of-type {
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.dropdown p:last-of-type {
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.dropdown p:hover {
+    background-color: hsl(90 70% 30%);
+    color: white;
+}
+
+#business-code-form {
+    max-width: 25rem;
+    margin: 0 auto;
+}
+
+#business-code-form > div {
+    display: flex;
+    align-items: center;
+    column-gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+#business-code-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+#business-code-form input[type="submit"] {
+    margin: 0;
+    width: 7rem;
+}
+
+.category-entry {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0;
+    font-weight: bold;
+    background-color: white;
+}
+
+.quick-info, .category-entry {
+    border-radius: 0.5rem;
+    border: 2px solid hsl(0 0% 70%);
+    cursor: pointer;
+    margin: 1rem 0;
+}
+
+.quick-info {
+    box-sizing: border-box;
+    padding: 1rem;
+}
+
+.quick-info:hover, .category-entry:hover {
+    background-color: hsl(0 0% 95%);
+}
+
+.quick-info h4 {
+    margin: 0;
+}
+
+.quick-info .category {
+    color:hsl(210 90% 40%);
+    font-weight: bold;
+    margin: 0;
+}
+
+.quick-info p:last-of-type {
+    margin: 0.5rem 0 0;
+}
+
+#title-row button {
+    background-color: transparent;
+    font-size: 24px;
+    border-radius: 50%;
+    height: 3rem;
+    width: 3rem;
+}
+
+#title-row button:hover {
+    background-color: hsl(0 0% 90%);
+}
+
+.secondary-btn-row {
+    display: flex;
+    width: 100%;
+    max-width: 18rem;
+    margin: 1rem auto;
+    column-gap: 0.5rem;
+}
+
+.secondary-btn-row button {
+    padding: 0.75rem;
+    border-radius: 1.5rem;
+    width: 6rem;
+    flex-grow: 1;
+}
+
+.btn-edit {
+    background-color: hsl(0 0% 30%);
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: hsl(0 0% 40%);
+}
+
+.tab-select {
+    max-width: 25rem;
+    margin: 0 auto;
+    display: flex;
+    column-gap: 1rem;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.tab-select input {
+    opacity: 0;
+    position: fixed;
+    pointer-events: none;
+}
+
+.tab-select label {
+    font-weight: bold;
+    cursor: pointer;
+    color:hsl(0 0% 70%);
+}
+
+.tab-select label.active {
+    text-decoration: underline;
+    color: black;
+}
+
+.tab-select * {
+    flex-shrink: 0;
+}
+
+.appointment-info h4 {
+    margin-bottom: 0.5rem;
+}
+
+.appointment-info h3 {
+    margin-bottom: 0.5rem;
+}
+
+.appointment-info h3 + p {
+    margin-top: 0;
+}
+
+.appointment-info .info-block {
+    margin-top: 0;
+}
+
+.textarea-label {
+    font-weight: bold;
+    text-align: left;
+}
+
+#business-code-label {
+    font-size: 14px;
+    margin: 0;
+}
+
+#business-code-label + p {
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 18px;
+}
+
+#category-form label{
+    font-weight: bold;
+}
+
+.start-end {
+    display: flex;
+    justify-content: center;
+    column-gap: 1rem;
+    flex-wrap: wrap;
+    row-gap: 1rem;
+}
+
+.start-end .label-field {
+    margin: 0;
+    width: auto;
+}
+
+.tools-row {
+    display: flex;
+    max-width: 25rem;
+    margin: 0.5rem auto;
+    justify-content: space-between;
+}
+
+.tools-row select {
+    margin-top: 0;
+}
+
+#added-slots {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 0.5rem;
+    row-gap: 0.5rem;
+}
+
+#added-slots button {
+    padding: 1rem;
+    border-radius: 2rem;
+}
+
+#added-slots button:hover {
+    background-color: hsl(0 0% 90%);
+}
+#added-slots button span {
+    color: hsl(0, 100%, 30%);
+    margin-left: 0.5rem;
+}
+
+.tab-page {
+    display: block;
+    max-width: 25rem;
+    margin: 0 auto;
+}
+
+#business-appointments select {
+    display: block;
+}
+
+#signup {
+    text-align: left;
+    max-width: 25rem;
+    margin: 0 auto;
+}
+
+#signup .tab-select label{
+    font-size: 20px;
+}
