@@ -8,12 +8,14 @@ export const Appointment = ({appointment, setPage}) => {
     const dispatch = useDispatch()
     const handleDecline = async(e) => {
         e.preventDefault()
-        dispatch(updateUser({
-            endpoint: 'appointments/cancel', 
-            bodyObj: {appointmentId: appointment._id, businessId: appointment.business}
-        }))
-        if(status === 'succeeded'){
-            setPage('home')
+        if(window.confirm("This appointment will be cancelled.")){
+            dispatch(updateUser({
+                endpoint: 'appointments/cancel', 
+                bodyObj: {appointmentId: appointment._id, businessId: appointment.business}
+            }))
+            if(status === 'succeeded'){
+                setPage('home')
+            }
         }
     }
 

@@ -9,12 +9,14 @@ export const Confirmation = ({ appointment, setPage, setBusiness }) => {
 
     const handleCancel = async (e) => {
         e.preventDefault()
-        dispatch(updateUser({
-            endpoint: 'appointments/cancel',
-            bodyObj: { appointmentId: appointment._id }
-        }))
-        if (status === 'succeeded') {
-            setPage('home')
+        if(window.confirm("This appointment will be deleted")){
+            dispatch(updateUser({
+                endpoint: 'appointments/cancel',
+                bodyObj: { appointmentId: appointment._id }
+            }))
+            if (status === 'succeeded') {
+                setPage('home')
+            }
         }
     }
 

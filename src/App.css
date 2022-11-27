@@ -47,7 +47,7 @@ select {
     background-image: url('./Images/Caret_down_font_awesome.svg');
     background-color:  hsl(0 0% 90%);
     background-repeat: no-repeat;
-    background-position: right 4px top 3px;
+    background-position: right 8px top 3px;
     background-size: 20px 20px;
 }
 

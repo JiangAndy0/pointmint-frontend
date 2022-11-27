@@ -29,12 +29,14 @@ export const CategoryForm = ({ setPage, setTab, category }) => {
 
     const handleDelete = async (e) => {
         e.preventDefault()
-        dispatch(updateUser({
-            endpoint: 'categories/delete',
-            bodyObj: { businessId: user._id, categoryId: category._id }
-        }))
-        if (status === 'succeeded') {
-            setPage('home')
+        if(window.confirm("This category will be deleted.")){
+            dispatch(updateUser({
+                endpoint: 'categories/delete',
+                bodyObj: { businessId: user._id, categoryId: category._id }
+            }))
+            if (status === 'succeeded') {
+                setPage('home')
+            }
         }
     }
 

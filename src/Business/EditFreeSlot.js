@@ -52,13 +52,15 @@ export const EditFreeSlot = ({ setPage, setTab, freeSlot }) => {
 
     const handleDelete = async (e) => {
         e.preventDefault()
-        dispatch(updateUser({
-            endpoint: 'freeslots/delete',
-            bodyObj: { businessId: user._id, appId: freeSlot._id }
-        }))
-        if (status === 'succeeded') {
-            setPage('home')
-            setTab('freeSlots')
+        if(window.confirm("This free slot will be deleted.")){
+            dispatch(updateUser({
+                endpoint: 'freeslots/delete',
+                bodyObj: { businessId: user._id, appId: freeSlot._id }
+            }))
+            if (status === 'succeeded') {
+                setPage('home')
+                setTab('freeSlots')
+            }
         }
     }
 
