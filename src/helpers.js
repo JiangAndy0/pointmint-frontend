@@ -38,7 +38,7 @@ export const formatDate = date => {
     return `${parts[1]}/${parts[2]}/${parts[0]}`
 }
 
-const serverDevelopment = true;
+const serverDevelopment = false;
 //sends back different api end points based on if in production or development
 export const getApi = () => {
     return serverDevelopment ? "http://localhost:5500" : "https://point-mint-backend.herokuapp.com"
