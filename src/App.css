@@ -237,6 +237,7 @@ header .dropdown {
 }
 
 .dropdown p {
+    font-size: 16px;
     margin: 0;
     padding: 1rem;
     border-radius: 0.5rem;
@@ -279,9 +280,10 @@ header .dropdown {
 }
 
 .category-entry {
+    font-size: 16px;
     display: block;
     width: 100%;
-    padding: 0.5rem 0;
+    padding: 0.75rem 0;
     font-weight: bold;
     background-color: white;
 }
@@ -304,6 +306,7 @@ header .dropdown {
 
 .quick-info h4 {
     margin: 0;
+    font-size: 18px;
 }
 
 .quick-info .category {
@@ -368,6 +371,7 @@ header .dropdown {
 }
 
 .tab-select label {
+    font-size: 20px;
     font-weight: bold;
     cursor: pointer;
     color:hsl(0 0% 70%);
@@ -404,14 +408,14 @@ header .dropdown {
 }
 
 #business-code-label {
-    font-size: 14px;
+    font-size: 18px;
     margin: 0;
 }
 
 #business-code-label + p {
     margin-top: 0.5rem;
     margin-bottom: 1.5rem;
-    font-size: 18px;
+    font-size: 24px;
 }
 
 #category-form label{
@@ -479,6 +483,18 @@ header .dropdown {
     margin: 0 auto;
 }
 
-#signup .tab-select label{
-    font-size: 20px;
+#state-zip-row {
+    display: flex;
+    column-gap: 0.5rem;
+    row-gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+#state-zip-row input:first-of-type {
+    width: 9rem;
+    flex-grow: 1;
+}
+
+#state-zip-row input:last-of-type {
+    width: 6rem;
 }

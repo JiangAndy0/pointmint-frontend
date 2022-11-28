@@ -77,29 +77,31 @@ export const BusinessProfile = (
                     })}
                     required
                 />
-                <input
-                    type="text"
-                    placeholder="State"
-                    value={address[3]}
-                    onChange={e => setAddress(prev => {
-                        const newAddress = prev.slice()
-                        newAddress[3] = e.target.value
-                        return newAddress
-                    })}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="ZIP Code"
-                    value={address[4]}
-                    inputMode="numeric"
-                    onChange={e => setAddress(prev => {
-                        const newAddress = prev.slice()
-                        newAddress[4] = e.target.value
-                        return newAddress
-                    })}
-                    required
-                />
+                <div id="state-zip-row">
+                    <input
+                        type="text"
+                        placeholder="State"
+                        value={address[3]}
+                        onChange={e => setAddress(prev => {
+                            const newAddress = prev.slice()
+                            newAddress[3] = e.target.value
+                            return newAddress
+                        })}
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="ZIP Code"
+                        value={address[4]}
+                        inputMode="numeric"
+                        onChange={e => setAddress(prev => {
+                            const newAddress = prev.slice()
+                            newAddress[4] = e.target.value
+                            return newAddress
+                        })}
+                        required
+                    />
+                </div>
             </div>
         </div>
     )
