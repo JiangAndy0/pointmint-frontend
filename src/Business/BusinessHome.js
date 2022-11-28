@@ -23,7 +23,7 @@ export const BusinessHome = ({ setPage, tab, setTab, setAppointment, setCategory
                     onChange={e => setTab(e.target.value)}
                     defaultChecked={tab === 'appointments'}
                 />
-                <label htmlFor="appointmentsRadio" className={tab === 'appointments' && 'active'}>Appointments</label>
+                <label htmlFor="appointmentsRadio" className={tab === 'appointments' ? 'active' : ''}>Appointments</label>
                 <input
                     type="radio"
                     id="freeSlotsRadio"
@@ -32,7 +32,7 @@ export const BusinessHome = ({ setPage, tab, setTab, setAppointment, setCategory
                     onChange={e => setTab(e.target.value)}
                     defaultChecked={tab === 'freeSlots'}
                 />
-                <label htmlFor="freeSlotsRadio" className={tab === 'freeSlots' && 'active'}>Free Slots</label>
+                <label htmlFor="freeSlotsRadio" className={tab === 'freeSlots' ? 'active' : ''}>Free Slots</label>
                 <input
                     type="radio"
                     id="categoriesRadio"
@@ -41,7 +41,7 @@ export const BusinessHome = ({ setPage, tab, setTab, setAppointment, setCategory
                     onChange={e => setTab(e.target.value)}
                     defaultChecked={tab === 'categories'}
                 />
-                <label htmlFor="categoriesRadio" className={tab === 'categories' && 'active'}>Categories</label>
+                <label htmlFor="categoriesRadio" className={tab === 'categories' ? 'active' : ''}>Categories</label>
             </div>
             {tab === 'appointments' &&
                 <BusinessAppointments

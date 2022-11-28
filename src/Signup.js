@@ -48,7 +48,7 @@ export const Signup = ({ setPage }) => {
                     defaultChecked
                     onChange={handleAccountChange}
                 />
-                <label htmlFor="clientRadio" className={accountType === 'client' && 'active'}>Client</label>
+                <label htmlFor="clientRadio" className={accountType === 'client' ? 'active' : ''}>Client</label>
                 <input
                     type="radio"
                     id="businessRadio"
@@ -56,7 +56,7 @@ export const Signup = ({ setPage }) => {
                     value="business"
                     onChange={handleAccountChange}
                 />
-                <label htmlFor="businessRadio" className={accountType === 'business' && 'active'}>Business</label>
+                <label htmlFor="businessRadio" className={accountType === 'business' ? 'active' : ''}>Business</label>
             </div>
             {status === 'failed' && <p className="error">Username is already taken</p>}
             <div className="label-field">
