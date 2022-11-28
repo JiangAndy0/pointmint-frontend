@@ -1,3 +1,22 @@
+# PointMint
+![Screenshot of the website](/src/Images/pointmint%20screenshot.png)
+Live website can be found [here](https://pointmint.netlify.app/)
+
+## Overview 
+Many small businesses don't have the time or resources to make a website, but need a way to schedule and keep track of appointments with clients. *PointMint* allows them to quickly set up time slots for different types of appointments and make them visible to their clients through a Business Code. When Clients enter the Business Code, they can see all the available time slots and schedule an appointment within seconds. For maximum convenience, *PointMint* is designed to be used on a mobile device.
+
+## Development Stack
+* Front-End:
+    * React, Redux for state management, dynamic components
+    * Javascript
+    * HTML
+    * CSS
+* Back-End (in a separate repo):
+    * Express for server routing
+    * Mongoose for modeling documents and communicating with database
+    * MongoDB Atlas
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
