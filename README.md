@@ -1,5 +1,4 @@
 # PointMint
-![Screenshot of the website](/src/Images/pointmint%20screenshot.png)
 Live website can be found [here](https://pointmint.netlify.app/)
 
 ## Overview 
@@ -15,7 +14,7 @@ Many small businesses don't have the time or resources to make a website, but ne
     * Express for server routing
     * Mongoose for modeling documents and communicating with database
     * MongoDB Atlas
-
+![Screenshot of the website](/src/Images/pointmint%20screenshot.png)
 
 # Getting Started with Create React App
 
