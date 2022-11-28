@@ -512,6 +512,7 @@ header .dropdown {
 .info-hover p {
     display: none;
     position: absolute;
+    left: -8rem;
 }
 
 .info-hover:hover p {

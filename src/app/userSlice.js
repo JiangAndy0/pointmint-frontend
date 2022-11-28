@@ -26,6 +26,9 @@ export const userSlice = createSlice({
         status: "idle"
     },
     reducers: {
+        setUser: (state, action) => {
+            state.data = action.payload
+        },
         setStatus: (state, action) => {
             state.status = action.payload
         }
@@ -48,6 +51,6 @@ export const userSlice = createSlice({
 
 export default userSlice.reducer
 
-export const {setStatus} = userSlice.actions
+export const {setStatus, setUser} = userSlice.actions
 export const selectUser = state => state.user.data
 export const selectStatus = state => state.user.status
