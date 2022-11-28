@@ -20,7 +20,7 @@ export const Header = ({setPage}) => {
                         className="dropdown"
                     >
                         <p onClick={() => setPage('profile')}>Profile</p>
-                        <p onClick={() => window.location.reload()}>Logout</p>
+                        <p onClick={() => window.location.reload()}>Sign out</p>
                     </div>
                 }
             </button>

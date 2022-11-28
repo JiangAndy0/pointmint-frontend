@@ -1,3 +1,6 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faCircleQuestion } from "@fortawesome/free-solid-svg-icons"
+
 export const BusinessProfile = (
     { name, email, phone, businessCode, address,
         setName, setEmail, setPhone, setBusinessCode, setAddress }
@@ -15,7 +18,17 @@ export const BusinessProfile = (
                 />
             </div>
             <div className="label-field">
-                <label htmlFor="code">Business Code</label>
+                <label htmlFor="code">
+                    Business Code
+                    <div className="info-hover">
+                        <FontAwesomeIcon icon={faCircleQuestion}/>
+                        <p>
+                            {`Your business code is what your clients will use to gain access to all your appointment slots. 
+                            It's best to keep it simple and related to your business name 
+                            (i.e. "juan-catering" or "flowerville-shop").`}
+                        </p>
+                    </div>
+                </label>
                 <input
                     type="text"
                     id="code"

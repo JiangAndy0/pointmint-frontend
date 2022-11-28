@@ -498,3 +498,30 @@ header .dropdown {
 #state-zip-row input:last-of-type {
     width: 6rem;
 }
+
+.info-hover {
+    margin-left: 0.5rem;
+    display: inline-block;
+    position: relative;
+}
+
+.info-hover svg {
+    color: hsl(90 70% 50%);
+}
+
+.info-hover p {
+    display: none;
+    position: absolute;
+}
+
+.info-hover:hover p {
+    font-weight: normal;
+    top: 0.5rem;
+    width: 80vw;
+    padding: 0.75rem;
+    max-width: 25rem;
+    background-color: white;
+    display: block;
+    border-radius: 0.5rem;
+    box-shadow: 3px 3px 8px hsla(0 0% 0% / .5);
+}
